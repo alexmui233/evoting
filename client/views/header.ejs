@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/events.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Voting</title>
+    
+    <!-- JS -->
+    <script src="../js/events.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <a class="webname">Happy Voting</a>
+        <a href="index.html">Home</a>
+        <a href="createpoll.html">Create Vote</a>
+        <a href="allpoll.html">All Vote</a>
+        <a href="mycreatepoll.html">My Own Vote</a>
+        <a href="mypoll.html">My Joined Vote</a>
+        <div class="dropdown" style="float: right;">
+            <?php if (isset($_SESSION["username"])) { ?>
+                <button class="dropbtn" onclick="droplist()">
+                    <i class="bi-person-square"></i>
+                    <?php echo $_SESSION['username']; ?>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="myprofile.html">My Profile</a>
+                    <a href="editprofile.html">Edit Profile</a>
+                    <a href="logout.html">Log Out</a>
+                </div>
+            <?php } else {
+            ?>
+                <a href='login.html'>Log In</a>
+                <a href="/register">Sign Up</a>
+            <?php } ?>
+        </div>
+    </div>
+</body>
+
+</html>

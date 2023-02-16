@@ -1,0 +1,239 @@
+body{
+    margin: 0;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding: 0px;
+    font-family: sans-serif;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .navbar a {
+    float: left;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 18px;  
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  .show {
+    display: block;
+  }
+  .webname{
+    font-weight: bold;
+    display: block;
+    cursor: default;
+  }
+  html{
+    background: #39ac37;
+}
+body{
+    margin: 0;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding: 0px;
+}
+.rediv {
+    text-align: center;
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+    width: max-content;
+}
+.rediv h1{
+   font-size: 50px;
+   margin-top: 0px;
+   padding-top: 33.5px;
+   
+}
+.rediv h2{
+    font-size: 35px;
+    font-family: SlidoSans, helvetica, arial, sans-serif;
+ }
+
+.rediv2{
+    float:left;
+    width: 50%;
+    height: 1000px;
+    position: fixed;
+    right: 0;
+    margin-left: 10px;
+}
+.reform{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0%;
+}
+a{
+    color: #2984fc;
+    text-decoration: none;
+    cursor: pointer;
+}
+.refieldset {
+    
+    width: 600px;
+    box-shadow: 0 0 15px #AAAAAA;
+    border-radius: 30px;
+}
+.reformdiv{
+    width: 550px;
+}
+.reformdiv input{
+    font-size: 20px;
+    margin-top: 15px;
+    width: 350px;
+    height: 50px;
+    border: 1px solid black;
+    padding: 0px 0px 0px 5px;
+    cursor: text;
+    vertical-align: baseline;
+    border-radius: 4px;
+}
+.submitbtn{
+    background-color: #39ac37;
+    padding: 16px 24px; 
+    border: none; 
+    color: white; 
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+.reformdiv label{
+    font-size: 20px;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: left;
+    width: 200px;
+}
+.svgpic{ 
+    vertical-align: middle;
+     height: 25px; 
+     width: 25px; 
+     margin: 0px 0px 4px;
+  }
+  .progress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    line-height: 0;
+    font-size: .75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #39ac37;
+    transition: width .6s ease;
+    background-position: 1rem 0;
+}
+.progress-bar-striped {
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 1rem 1rem;
+}
+.progress-bar-animated {   
+  animation: html-fill 2s forwards;
+}
+@keyframes html-fill{
+  100%{
+      width: 90%;
+  }
+}
+
+.ans{
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  line-height: 0;
+  font-size: .75rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+}
+
+.d{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bar{
+  position: relative;
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06); 
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+.bar div{
+  position: relative;
+  width: 0;
+  height: 10px;
+  border-radius: 10px;
+  background-color: #badefc;
+  border: 1px solid #1c97fc;
+  box-shadow: 0 0 5px rgba(28,151,252,0.6);
+}
+#html-bar{
+  animation: html-fill 2s forwards;
+}
+@keyframes html-fill{
+  100%{
+      width: 90%;
+  }
+}

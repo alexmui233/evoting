@@ -1,0 +1,132 @@
+body{
+    margin: 0;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding: 0px;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .navbar a {
+    float: left;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 18px;  
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  .show {
+    display: block;
+  }
+  .webname{
+    font-weight: bold;
+    display: block;
+    cursor: default;
+  }
+  .apdiv {
+    text-align: center;
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+    width: max-content;
+}
+.apdiv h1{
+   color: #39ac37;
+   font-size: 50px;
+   margin-top: 0px;
+   padding-top: 33.5px;
+   
+}
+.apdiv h2{
+    font-size: 30px;
+    font-family: SlidoSans, helvetica, arial, sans-serif;
+ }
+
+.apbox{ 
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0%;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.apboxcon {
+    margin: 0 auto;
+    width: 500px;
+    box-shadow: 0 0 10px #AAAAAA;
+    border-radius: 10px;
+}
+.apboxdiv{
+    margin: 10px 0px 10px 10px;
+    width: max-content;
+    padding: 15px 20px;
+    
+}
+.apbtn{
+    float: right; 
+    font-size: 18px;
+    color: white;
+    background-color: #39ac37;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 3px 5px 3px  5px;
+    border-radius: 3px;
+}
+div.a {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+.svgpic{ 
+  vertical-align: middle;
+   height: 25px; 
+   width: 25px; 
+   margin: 0px 0px 4px;
+}

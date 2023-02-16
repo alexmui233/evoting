@@ -1,0 +1,190 @@
+body{
+    margin: 0;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding: 0px;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .navbar a {
+    float: left;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 18px;  
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  .show {
+    display: block;
+  }
+  .webname{
+    font-weight: bold;
+    display: block;
+    cursor: default;
+  }
+
+.reform{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0%;
+}
+a{
+    color: #2984fc;
+    text-decoration: none;
+    cursor: pointer;
+}
+.refieldset {
+    margin: 0 auto;
+    width: 700px;
+    height: max-content;
+    box-shadow: 0 0 15px #AAAAAA;
+    border-radius: 30px;
+}
+.reformdiv{
+    margin: 0 auto;
+    padding: 0px 10px 10px 10px;
+    width: 500px;
+}
+.reformdiv input{
+    margin-top: 15px;
+    border: none;
+    cursor: default;
+    vertical-align: baseline;
+    border-radius: 4px;
+}
+.section1 input,
+.section1 progress {
+	accent-color: #39ac37;
+}
+.reformdiv label{
+    font-size: 20px;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: max-content;
+}
+
+.submitbtn{
+    float: right;
+    font-size: 17px;
+    background-color: #39ac37;
+    width: 100px;
+    height: 50px;
+    padding: 10px; 
+    border-color: none; 
+    color: white; 
+    cursor: pointer;
+    text-align: center;
+
+}
+  .votesdiv {
+    text-align: center;
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+    width: max-content;
+}
+.votesdiv h1{
+   color: #39ac37;
+   font-size: 50px;
+   margin-top: 0px;
+   
+}
+.votesdiv h2{
+    font-size: 30px;
+    font-family: SlidoSans, helvetica, arial, sans-serif;
+ }
+
+.votesbox{
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0%;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.votesboxcon {
+    margin: 0 auto;
+    width: 500px;
+    
+    box-shadow: 0 0 10px #AAAAAA;
+    border-radius: 10px;
+}
+.votesboxdiv{
+    margin: 10px 0px 10px 10px;
+    width: max-content;
+    padding: 15px 20px;
+
+}
+.votesbtn{
+    float: right; 
+    font-size: 18px;
+    color: white;
+    background-color: #39ac37;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 3px 5px 3px  5px;
+    border-radius: 3px;
+}
+div.a {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+.svgpic{ 
+    vertical-align: middle;
+     height: 25px; 
+     width: 25px; 
+     margin: 0px 0px 4px;
+}

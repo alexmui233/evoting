@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0
+}
+.profilediv {
+    margin: 0 auto;
+    background-color: rgb(255, 255, 255);
+    width: max-content;
+}
+.profilediv h1{
+   font-size: 50px;
+   margin-top: 0px;
+   
+}
+.profilediv h2{
+    font-size: 35px;
+    font-family: SlidoSans, helvetica, arial, sans-serif;
+ }
+
+.reform{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0%;
+}
+a{
+    color: #2984fc;
+    text-decoration: none;
+    cursor: pointer;
+}
+.refieldset {
+    margin: 0 auto;
+    width: 700px;
+    height: max-content;
+    box-shadow: 0 0 15px #AAAAAA;
+    border-radius: 30px;
+}
+.reformdiv{
+    margin: 0 auto;
+    padding: 0px 10px 10px 10px;
+    width: max-content;
+}
+.reformdivinput{
+    font-size: 20px;
+    margin-top: 15px;
+    width: 350px;
+    height: 50px;
+    border: 1px solid black;
+    padding: 0px 0px 0px 5px;
+    cursor: text;
+    vertical-align: baseline;
+    border-radius: 4px;
+    
+}
+.reformdiv label{
+    font-size: 20px;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: 150px;
+}
+
+.submitbtn{
+    background-color: #39ac37;
+    padding: 16px 24px;  
+    color: white; 
+    margin: 0px auto;
+    font-size: 20px;
+    width: 100%;
+    height: 50px;
+    vertical-align: middle;
+    border-radius: 4px;
+    border: none;
+}
