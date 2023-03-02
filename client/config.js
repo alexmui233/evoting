@@ -1,4 +1,4 @@
-require("./database");
+/* require("./database");
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
@@ -123,3 +123,4 @@ $pdo = new PDO("mysql:host=" .DB_SERVER."; dbname=" .DB_NAME, DB_USERNAME, DB_PA
 $pdo->exec("SET CHARACTER SET utf8");
 //turn on errors in the form of exceptions
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); */
+ */

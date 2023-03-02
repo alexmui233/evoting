@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <!-- JS -->
-    <script type="text/javascript" src="./js/events.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../css/events.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src=""></script>
+
     <style>
         
         .divcre a:hover {
@@ -48,6 +48,11 @@
 
 <body>
     <%- include header %>
+    <script>
+        const { ethereum } = window;
+        return Boolean(ethereum && ethereum.isMetaMask);
+        console.log("ethereum.isMetaMask: ", ethereum.isMetaMask);
+    </script>
     <div class="bg" style="background-image: url('../picture/wellcomebg.jpg');">
     
         <div style="margin: 0 auto; width: max-content; height:max-content;">

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Happy Voting</title>
+    <link href="../css/login.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include header %>
+    <div style="height: 100vh;  width: 100%; background-color:#39ac37">
+
+        <div style="background-color: white; width: 600px; height: 100vh; margin: 0 auto;">
+            <div class="rediv">
+                <h1 style="color: #39ac37;">Happy Voting</h1>
+                <h2 class="">log in <br> to create and join the votes</h2>
+                <p>Haven’t register yet? <a href="/register">create your account</a></p>
+            </div>
+            <div>
+                <form class="reform" action="/login" method="post">
+                    <fieldset class="refieldset" style="height: 260px;">
+
+                        <div class="reformdiv">
+                            <input class="form-control" value="" type="text" name="username" placeholder="username">
+                            <br>
+                            <span style="color:red; font-size: 17px"><%= username_err %></span>
+                            <br>
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                            <br>
+                            <span style="color:red; font-size: 17px"><%= password_err %></span>
+                            <br>
+                            <input type="hidden" name="csrf" value="">
+                            <input type="submit" name="submit" value="Log in" style="background-color: #39ac37; padding: 16px 24px; border: none; color: white; cursor: pointer;">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
