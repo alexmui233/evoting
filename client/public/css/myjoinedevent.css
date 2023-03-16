@@ -1,0 +1,84 @@
+body{
+    margin: 0;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding: 0px;
+  background-color: #DFDFDF;
+}
+
+.apdiv {
+  text-align: center;
+  margin: 0 auto;
+  background-color: #DFDFDF;
+  width: max-content;
+}
+.apdiv h1{
+   color: #39ac37;
+   font-size: 50px;
+   margin-top: 0px;
+   padding-top: 33.5px;
+   
+}
+.apdiv h2{
+    font-size: 30px;
+    font-family: SlidoSans, helvetica, arial, sans-serif;
+ }
+
+.apbox{ 
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0%;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.apboxcon {
+    margin: 0 auto;
+    width: 520px;
+    box-shadow: 0 0 10px #AAAAAA;
+    border-radius: 10px;
+    background-color: white;
+}
+.apboxdiv{
+    width: 500px; 
+    background-color: white;
+    margin: 10px;
+    padding: 15px 20px;
+    border-radius: 10px;
+}
+.apbtn{
+    float: right; 
+    font-size: 18px;
+    color: white;
+    background-color: #39ac37;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 10px 10px;
+    border-radius: 3px;
+}
+.apdisbtn{
+    float: right; 
+    font-size: 18px;
+    color: white;
+    background-color: #afafaf;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 10px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+}
+div.a {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+.svgpic{ 
+    vertical-align: middle;
+     height: 25px; 
+     width: 25px; 
+     margin: 0px 0px 4px;
+}

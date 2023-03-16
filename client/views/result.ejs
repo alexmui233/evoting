@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/result.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <%- include header %>
+        <div style="height: 100vh;  width: 100%; background-color:#39ac37">
+
+            <div style="background-color: white; width: 1000px; height: 100vh; margin: 0 auto;">
+                <div class="rediv">
+                    <h1 style="color: #39ac37;">Voting Result</h1>
+                    <h2 class="">You can see the detail and result of vote event below</h2>
+                </div>
+                <div>
+                    <form class="reform" action="" method="post">
+                        <fieldset class="refieldset">
+                            <div class="reformdiv" style="margin: 10px auto; display:inline;">
+                                <p style=" margin: 0px; font-size: 22px;width: fit-content; float: left;">question: <%= event.question %></p>
+                                <p style="float: right;  margin: 0px; font-size: 22px;"> voters: <%= totalans %><img src="../picture\people.svg" alt="" class="svgpic"></p>
+                                <br><br>
+                                <hr>
+                            </div>
+                            <% for (var i = 0; i < event.answers.length; i++){ %>
+                                <div class="reformdiv" style="margin: 10px auto;">
+                                    <label
+                                        style="width: 550px; display: flex; justify-content: space-between;  margin: 10px auto; padding:0px">
+                                        <span><%= event.answers[i] %></span>
+                                        <span id="viewper"><%= per[i] %> %</span>
+                                    </label>
+                                    <div
+                                        style=" display: flex; height: 1rem; overflow: hidden; line-height: 0; font-size: .75rem; background-color: #e9ecef; border-radius: 0.25rem;">
+                                        <div class="resultbar" id="resultbar" <% /* eslint-disable css-propertyvalueexpected */ %> style="width: <%= per[i] %>%;"></div>
+                                    </div>
+                                    <br>
+                                    <script src="../js/animationbar.js"></script>
+                                </div>
+                            <% } %>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

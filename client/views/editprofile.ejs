@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/profile.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+
+</head>
+
+<body>
+    <%- include header %>
+        <div style="height: 100vh;  width: 100%; background-color:#39ac37; padding: 60px;">
+            <div
+                style="background-color: white; width: max-content; height: max-content; margin: 0px auto; padding: 20px; border-radius: 10px">
+                <div class="profilediv">
+                    <h1 style="color: #39ac37;">Edit Profile</h1>
+                    <h2 class="">Your can edit your account information in here</h2>
+                </div>
+                <br><br>
+                <div>
+                    <form class="reform" action="/profile" method="post">
+                        <fieldset class="refieldset">
+                            <div class="reformdiv">
+                                <label>Username: </label>
+                                <input class="reformdivinput" type="text" name="username"
+                                    value="<%= user.username %>"><br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= username_err %>
+                                </span>
+                                <br>
+
+                                <label>Address: </label>
+                                <input class="reformdivinput" type="text" name="address" value="<%= user.address %>">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= address_err %>
+                                </span>
+                                <br>
+
+                                <label>Email: </label>
+                                <input class="reformdivinput" type="email" name="email" value="<%= user.email %>">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= email_err %>
+                                </span>
+                                <br>
+                                <label>Password: </label>
+                                <input class="reformdivinput" type="password" name="password"
+                                    value="">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= password_err %>
+                                </span>
+                                <br><br>
+                                <input class="submitbtn" type="submit" value="Update" style="cursor: pointer;">
+                                <br><br>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="../js/metamask.js"></script>
+</body>
+
+</html>

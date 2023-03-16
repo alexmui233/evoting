@@ -3,14 +3,20 @@ const mongoose = require('mongoose');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
+const createeventRouter = require('./routes/createevent');
+const mycreateeventRouter = require('./routes/mycreateevent');
+const alleventRouter = require('./routes/allevent');
+const voteRouter = require('./routes/vote');
+const myjoinedeventRouter = require('./routes/myjoinedevent');
+const resultRouter = require('./routes/result');
+const profileRouter = require('./routes/profile');
 const app = express();
 var filter = require('content-filter');
 var bodyParser = require('body-parser');
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
 
-/* var Web3 = require("web3");
+var Web3 = require("web3");
 const web3 = new Web3("http://127.0.0.1:8545");
 async function getBlockNumber() {
   const latestBlockNumber = await web3.eth.getBlockNumber()
@@ -18,28 +24,13 @@ async function getBlockNumber() {
   return latestBlockNumber
 }
 
-getBlockNumber() */
+getBlockNumber()
 
-/* const provider = window.ethereum;
-if (typeof provider !== 'undefined') {
-  console.log('get window fail');
-  // state.web3 = new Web3(window.ethereum);
-  try {
-    // Request account access if needed
-    // typeof window.ethereum.enable();
-    // Accounts now exposed
-  } catch (error) {
-    // User denied account access...
-  };
-} else {
-  console.log('get window successful');
-}; */
-
-
+// parse application/json
+app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(filter());
-
 
 app.use(session({
   secret: 'mySecret',
@@ -51,8 +42,7 @@ app.use(session({
 }));
 app.use(cookieParser());
 
-// parse application/json
-app.use(bodyParser.json());
+
 app.use(express.static('public'));
 app.use('/', express.static(__dirname + '/picture'));
 let engine = require('ejs-locals');
@@ -84,4 +74,11 @@ app.get('/index', function (req, res) {
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/createevent', createeventRouter);
+app.use('/mycreateevent', mycreateeventRouter);
+app.use('/allevent', alleventRouter);
+app.use('/vote', voteRouter);
+app.use('/myjoinedevent', myjoinedeventRouter);
+app.use('/result', resultRouter);
+app.use('/profile', profileRouter);
 app.listen(8000);

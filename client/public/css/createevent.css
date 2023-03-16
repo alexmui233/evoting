@@ -123,12 +123,13 @@ a{
 .refieldset {
     margin: 0 auto;
     width: 800px;
+    height: 550px;
     box-shadow: 0 0 15px #AAAAAA;
     border-radius: 30px;
 }
 .reformdiv{
-    
-    width: 600px;
+    margin: 0 auto; 
+    width: 450px;
 }
 .submitbtn{
     background-color: #39ac37;

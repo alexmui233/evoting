@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="css/mycreateevent.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+    <!-- JS -->
+    <script src="js/events.js"></script>
+
+</head>
+
+<body>
+    <%- include header %>
+        <div class="apdiv">
+            <h1>Your created vote event</h1>
+            <h2>You can see what vote event you created as listed below</h2>
+            <br>
+            </h2>
+        </div>
+        <% for (let event of events) { %>
+            <div class="apbox">
+                <div class="apboxcon">
+                    <div class="apboxdiv">
+                        <div style="width: max-content; height: 65px; float: right;">
+                            <% if (event.state == "result") { %>
+                                <a class="apbtn" href="/mycreateevent/result/<%= event.eid %>">result</a>
+                            <% } else { %>
+                                <a class="apdisbtn">result</a>
+                            <% } %>
+                            <% if (event.state != "result") { %>
+                                <a class="apbtn" href="/mycreateevent/<%= event.eid %>">change state</a>
+                            <% } else { %>
+                                <a class="apdisbtn">change state</a>
+                            <% } %>
+                        </div>
+                        <div style="width: 300px;">
+                            <div>question: <%= event.question %>
+                            </div>
+                            participants: <%= event.participants.length %> <img class="svgpic" src="picture\people.svg"
+                                    alt="votespic"><br>
+                                state: <%= event.state %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+                <script src="../js/metamask.js"></script>
+</body>
+
+</html>

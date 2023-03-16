@@ -10,17 +10,17 @@
     
     <!-- JS -->
     <script src="../js/events.js"></script>
-    <script src="../js/testmetamask.js"></script>
+
 </head>
 
 <body>
     <div class="navbar">
         <a class="webname">Happy Voting</a>
-        <a href="index.html">Home</a>
-        <a href="createpoll.html">Create Vote</a>
-        <a href="allpoll.html">All Vote</a>
-        <a href="mycreatepoll.html">My Own Vote</a>
-        <a href="mypoll.html">My Joined Vote</a>
+        <a href="/index">Home</a>
+        <a href="/createevent">Create Vote</a>
+        <a href="/allevent">All Vote</a>
+        <a href="/mycreateevent">My Own Vote</a>
+        <a href="/myjoinedevent">My Joined Vote</a>
         <div class="dropdown" style="float: right;">
             <% if (username !== "" && username !== undefined) {%>
                 <button class="dropbtn" onclick="droplist()">
@@ -29,12 +29,12 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content" id="myDropdown">
-                    <a href="myprofile.html">My Profile</a>
-                    <a href="editprofile.html">Edit Profile</a>
+                    <a href="/profile/myprofile">My Profile</a>
+                    <a href="/profile/editprofile">Edit Profile</a>
                     <a href="/logout">Log Out</a>
                 </div>
             <% } else { %>
-                <a href='/login'>Log In</a>
+                <a href="/login">Log In</a>
                 <a href="/register">Sign Up</a>
             <% } %>
         </div>

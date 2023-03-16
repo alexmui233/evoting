@@ -4,17 +4,19 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('register', {username_err: "", email_err: "", password_err: "", confirm_password_err: "", username: ""});
+  res.render('register', {username_err: "", email_err: "", password_err: "", confirm_password_err: "", metamaskaddr_err: "", username: ""});
 });
 
 router.get('/registersuccess', (req, res) => {
-  res.render('registersuccess');
+  res.render('registersuccess', username = "");
 });
 
 router.use(express.urlencoded({extended: true})); 
 
 router.post('/', async (req, res) =>{
-  var username_err = password_err = confirm_password_err = email_err = "";
+  var username_err = password_err = confirm_password_err = email_err = metamaskaddr_err = "";
+
+  console.log("ethacc: ", req.body.ethacc);
 
   if (req.body.username == ""){
     username_err = "Please enter a username";
@@ -58,13 +60,28 @@ router.post('/', async (req, res) =>{
     confirm_password_err = "Password did not match";
   }
 
-  if (username_err !== "" || email_err !== "" || password_err !== "" || confirm_password_err !== "") {
+  if (req.body.ethacc === "") {
+    metamaskaddr_err = "Please connect to metamask";
+  } else {
+    await User.findOne({address: req.body.ethacc}).then(address => {
+      if (address !== null){
+        metamaskaddr_err = "This metamask account is already taken";
+      } 
+      else {
+        metamaskaddr_err = "";
+      };
+    });    
+  };
+
+  if (username_err !== "" || email_err !== "" || password_err !== "" || confirm_password_err !== "" || metamaskaddr_err !== "") {
 
     res.render('register', {
       username_err: username_err,
       email_err: email_err,
       password_err: password_err,
-      confirm_password_err: confirm_password_err
+      confirm_password_err: confirm_password_err,
+      metamaskaddr_err: metamaskaddr_err,
+      username: ""
     });
     console.log("redirected register page");
 
@@ -75,7 +92,8 @@ router.post('/', async (req, res) =>{
       uid: countuser,
       username: req.body.username,
       email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 10)
+      password: await bcrypt.hash(req.body.password, 10),
+      address: req.body.ethacc
     });
     try{
       user = await user.save();
@@ -87,7 +105,6 @@ router.post('/', async (req, res) =>{
       console.log(req.body.password);
       console.log(req.body.confirm_password);
       console.log("error!\n", e);
-      
     };
   };
 });

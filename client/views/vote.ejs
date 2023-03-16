@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/vote.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+
+    <!-- JS -->
+    <script src="js/events.js"></script>
+
+</head>
+
+<body>
+    <%- include header %>
+        <div style="height: 100vh;  width: 100%; background-color:#39ac37">
+            <div style="background-color: white; width: 800px; height: 100vh; margin: 0 auto;">
+                <div class="votesdiv">
+                    <h1 style="padding-top: 33.5px;">Event Voting</h1>
+                    <h2>You can vote the below question and<br>
+                        submit the result by respond button</h2>
+                </div>
+                <div>
+                    <form class="reform" action="/vote/<%= event.eid %>" method="post">
+                        <fieldset class="refieldset">
+                            <div class="reformdiv section1">
+                                <span class="" style="color:red; font-size: 17px"><%= metamaskaddr_err %></span>
+                                <br>
+                                <label style="width: max-content;">owner: <%= event.owner %></label><br>
+                                <label style="width: max-content;">question: <%= event.question %></label>
+                                <br>
+                                <% for (var i=0; i < event.answers.length; i++){ %>
+                                    <%= i + 1 %>. <input type="radio" style="display: none;" id="<%= event.answers[i] %>" name="selectedanswer" value="<%= event.answers[i] %>">
+                                    <label for="<%= event.answers[i] %>"><%= event.answers[i] %></label><br>
+                                <% } %>
+                                <span class="" style="color:red; font-size: 17px"><%= selectedanswer_err %></span>
+                                <input type="hidden" name="ethacc" id="ethacc" value="">
+                                <input class="submitbtn" type="submit" style="border-color: none;" value="Respond">
+                            </div>
+                            <br><br>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="../js/metamask.js"></script>
+</body>
+
+</html>

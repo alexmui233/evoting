@@ -11,48 +11,65 @@
     <link href="../css/register.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src=""></script>
 </head>
 
 <body>
     <%- include header %>
-    <div style="height: 100vh; width: 100%; background-color:#39ac37">
+        <div style="height: 100vh; width: 100%; background-color:#39ac37">
 
-        <div style="background-color: white; width: 700px; height: 1000px; margin: 0 auto;">
-            <div class="rediv">
-                <h1 style="color: #39ac37;">Happy Voting</h1>
-                <h2 class="">Register as a user <br> to join the votes</h2>
-                <p style="font-size: bold;">or aleady have an account, let <a href="/login">log in</a> your account.</p>
-            </div>
-            <div>
-                <form class="reform" action="/register" method="post">
-                    <fieldset class="refieldset" style="height: 440px;">
-                        <div class="reformdiv">
-                            <input class="form-control" value="" type="text" name="username" id="username" placeholder="username">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= username_err %></span>
-                            <br>
-                            <input class="form-control" value="" type="email" name="email" id="email" placeholder="Email">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= email_err %></span>
-                            <br>
-                            <input class="form-control" value="" type="password" name="password" id="password" placeholder="Password">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= password_err %></span>
-                            <br>
-                            <input class="form-control" type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= confirm_password_err %></span>
-                            <br>
-                            <input type="hidden" name="csrf" value="">
-                            <input class="submitbtn" type="submit" name="submit" value="Create account" style="border: none; cursor: pointer;">
-                        </div>
-                    </fieldset>
-                </form>
+            <div style="background-color: white; width: 700px; height: 1000px; margin: 0 auto;">
+                <div class="rediv">
+                    <h1 style="color: #39ac37;">Happy Voting</h1>
+                    <h2 class="">Register as a user <br> to join the votes</h2>
+                    <p style="font-size: bold;">or aleady have an account, let <a href="/login">log in</a> your account.
+                    </p>
+                </div>
+                <div>
+                    <form class="reform" action="/register" method="post">
+                        <fieldset class="refieldset" style="height: 440px;">
+                            <div class="reformdiv">
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= metamaskaddr_err %>
+                                </span>
+                                <br>
+                                <input class="form-control" value="" type="text" name="username" id="username"
+                                    placeholder="username">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= username_err %>
+                                </span>
+                                <br>
+                                <input class="form-control" value="" type="email" name="email" id="email"
+                                    placeholder="Email">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= email_err %>
+                                </span>
+                                <br>
+                                <input class="form-control" value="" type="password" name="password" id="password"
+                                    placeholder="Password">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= password_err %>
+                                </span>
+                                <br>
+                                <input class="form-control" type="password" name="confirm_password"
+                                    id="confirm_password" placeholder="Confirm Password">
+                                <br>
+                                <span class="" style="color:red; font-size: 17px">
+                                    <%= confirm_password_err %>
+                                </span>
+                                <br>
+                                <input type="hidden" name="ethacc" id="ethacc" value="">
+                                <input type="hidden" name="csrf" value="">
+                                <input class="submitbtn" type="submit" name="submit" value="Create account"
+                                    style="border: none; cursor: pointer;">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
+        <script src="../js/metamask.js"></script>
 </body>
-
 </html>

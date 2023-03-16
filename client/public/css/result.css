@@ -1,86 +1,3 @@
-body{
-    margin: 0;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding: 0px;
-    font-family: sans-serif;
-}
-
-.navbar {
-    overflow: hidden;
-    background-color: #333;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  .navbar a {
-    float: left;
-    font-size: 18px;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-  
-  .dropdown .dropbtn {
-    cursor: pointer;
-    font-size: 18px;  
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  .show {
-    display: block;
-  }
-  .webname{
-    font-weight: bold;
-    display: block;
-    cursor: default;
-  }
-  html{
-    background: #39ac37;
-}
-body{
-    margin: 0;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding: 0px;
-}
 .rediv {
     text-align: center;
     margin: 0 auto;
@@ -170,8 +87,6 @@ a{
     background-color: #e9ecef;
     border-radius: 0.25rem;
 }
-
-
 .progress-bar {
     display: flex;
     flex-direction: column;
@@ -195,7 +110,6 @@ a{
       width: 90%;
   }
 }
-
 .ans{
   display: flex;
   height: 1rem;
@@ -205,14 +119,12 @@ a{
   background-color: #e9ecef;
   border-radius: 0.25rem;
 }
-
 .d{
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
-
 .bar{
   position: relative;
   background-color: rgba(255,255,255,0.06);
@@ -231,6 +143,11 @@ a{
 }
 #html-bar{
   animation: html-fill 2s forwards;
+}
+.resultbar{
+  background-color: #39ac37; 
+  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+  background-size: 1rem 1rem;
 }
 @keyframes html-fill{
   100%{

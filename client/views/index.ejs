@@ -13,11 +13,9 @@
     <!-- JS -->
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/events.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
     <style>
         
         .divcre a:hover {
@@ -48,11 +46,6 @@
 
 <body>
     <%- include header %>
-    <script>
-        const { ethereum } = window;
-        return Boolean(ethereum && ethereum.isMetaMask);
-        console.log("ethereum.isMetaMask: ", ethereum.isMetaMask);
-    </script>
     <div class="bg" style="background-image: url('../picture/wellcomebg.jpg');">
     
         <div style="margin: 0 auto; width: max-content; height:max-content;">
@@ -65,7 +58,7 @@
             <br><br>
             Let click the button to create!
         </p>
-        <a class="createbtn" href="createpoll.html" style="font-size: 20px; text-decoration: none;">Create</a>
+        <a class="createbtn" href="/createevent" style="font-size: 20px; text-decoration: none;">Create</a>
     </div>
 
     <div class="divall" style="padding: 3.5rem 0; background-color: #f5f5f5; text-align: center; color: #39ac37;">
@@ -75,7 +68,7 @@
             <br><br>
             Let click the button to view and join!
         </p>
-        <a class="joinbtn" href="allpoll.html" style="font-size: 20px; text-decoration: none;">Join</a>
+        <a class="joinbtn" href="/allevent" style="font-size: 20px; text-decoration: none;">Join</a>
     </div>
     <div class="divall" style="padding: 3.5rem 0; background-color: white; text-align: center; color: black;">
         <h1 style="width: 1100px; text-align: center;">Already have a vote events?</h1>
@@ -84,7 +77,7 @@
             <br><br>
             Let click the button to view!
         </p>
-        <a class="joinbtn" href="mypoll.html" style="font-size: 20px; text-decoration: none;">View</a>
+        <a class="joinbtn" href="/mycreateevent" style="font-size: 20px; text-decoration: none;">View</a>
     </div>
 </body>
 

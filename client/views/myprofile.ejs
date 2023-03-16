@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/profile.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+</head>
+
+<body>
+    <%- include header %>
+        <div style="height: 100vh;  width: 100%; background-color:#39ac37; padding: 60px;">
+            <div
+                style="background-color: white; width: max-content; height: max-content; margin: 0px auto; padding: 20px;  border-radius: 10px">
+                <div class="profilediv">
+                    <h1>My Profile</h1>
+                    <h2>Your can view your account information in here</h2>
+                </div>
+                <br><br>
+                <div>
+                    <form class="reform">
+                        <fieldset class="refieldset">
+                            <div class="reformdiv">
+                                <label>Username: </label>
+                                <input class="reformdivinput" type="text" name="username"
+                                    value="<%= user.username %>" readonly><br>
+                                <label>Address: </label>
+                                <input class="reformdivinput" type="text" name="address"
+                                    value="<%= user.address %>" readonly>
+                                <br>
+                                <label>Email: </label>
+                                <input class="reformdivinput" type="email" name="email" value="<%= user.email %>"
+                                    readonly>
+                                <br>
+                                <label>Password: </label>
+                                <input class="reformdivinput" type="password" name="password"
+                                    value="<%= user.password %>" readonly>
+                                <br><br>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

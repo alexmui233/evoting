@@ -19,9 +19,10 @@
             </div>
             <div>
                 <form class="reform" action="/login" method="post">
-                    <fieldset class="refieldset" style="height: 260px;">
-
+                    <fieldset class="refieldset" style="height: 300px;">
                         <div class="reformdiv">
+                            <span class="" style="color:red; font-size: 17px"><%= metamaskaddr_err %></span>
+                            <br>
                             <input class="form-control" value="" type="text" name="username" placeholder="username">
                             <br>
                             <span style="color:red; font-size: 17px"><%= username_err %></span>
@@ -30,6 +31,7 @@
                             <br>
                             <span style="color:red; font-size: 17px"><%= password_err %></span>
                             <br>
+                            <input type="hidden" name="ethacc" id="ethacc" value="">
                             <input type="hidden" name="csrf" value="">
                             <input type="submit" name="submit" value="Log in" style="background-color: #39ac37; padding: 16px 24px; border: none; color: white; cursor: pointer;">
                         </div>
@@ -37,10 +39,8 @@
                 </form>
             </div>
         </div>
-
-
     </div>
-
+    <script src="../js/metamask.js"></script>
 </body>
 
 </html>
