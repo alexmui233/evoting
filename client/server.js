@@ -16,16 +16,6 @@ var bodyParser = require('body-parser');
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 
-var Web3 = require("web3");
-const web3 = new Web3("http://127.0.0.1:8545");
-async function getBlockNumber() {
-  const latestBlockNumber = await web3.eth.getBlockNumber()
-  console.log("latestBlockNumber", latestBlockNumber)
-  return latestBlockNumber
-}
-
-getBlockNumber()
-
 // parse application/json
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded

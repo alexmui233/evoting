@@ -1,5 +1,6 @@
 const express = require("express");
 const Event = require("../models/event");
+const blockchain = require("../public/js/events");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -9,7 +10,6 @@ router.get("/", async (req, res) => {
     console.log("events.participants.includes()", events[i].participants.includes(req.session.username));
     checkjoined.push(events[i].participants.includes(req.session.username));
   }
-  console.log(" checkjoined:",  checkjoined);
   res.render("allevent", {
     username: req.session.username,
     events: events,
@@ -31,6 +31,18 @@ router.get("/:eid", async (req, res) => {
             { eid: eid },
             { $push: { participants: req.session.username } }
           );
+          blockchain.web3.eth.getAccounts().then(async function(accounts){
+            var account;
+            for (var i = 0; i < 10; i++) {
+              if (req.session.ethaccount == accounts[i].toLowerCase()){
+                account = accounts[i];
+                console.log(accounts[i]);
+              }
+            }
+            await blockchain.contract.methods.joinevent(eid, req.session.username).send({from: req.session.ethaccount, gas:3000000}).then(console.log);
+            // await blockchain.contract.methods.vieweventparticipants(eid).call().then(console.log());
+          });
+          
           console.log("You join this event successfully");
         } else {
           console.log("You have been join this event");

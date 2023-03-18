@@ -51,7 +51,8 @@ router.post('/', async (req, res) => {
           else {
             password_err = "";
             console.log("Login successful");
-            req.session.username = req.body.username
+            req.session.username = req.body.username;
+            req.session.ethaccount = req.body.ethacc;
             req.session.save();
             res.redirect('/index');
           };

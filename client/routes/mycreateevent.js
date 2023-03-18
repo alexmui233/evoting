@@ -1,5 +1,6 @@
 const express = require("express");
 const Event = require("../models/event");
+const blockchain = require("../public/js/events");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -25,8 +26,28 @@ router.get("/:eid", async (req, res) => {
     console.log("changestateevent: ", changestateevent);
     if (changestateevent.state == "registration") {
       await Event.updateOne({ eid: eid }, { $set: { state: "voting" } });
+      blockchain.web3.eth.getAccounts().then(async function(accounts){
+        var account;
+        for (var i = 0; i < 10; i++) {
+          if (req.session.ethaccount == accounts[i].toLowerCase()){
+            account = accounts[i];
+            console.log(accounts[i]);
+          }
+        }
+        await blockchain.contract.methods.changeeventstate(eid).send({from: account, gas:3000000}).then(console.log);
+      });
     } else if (changestateevent.state == "voting") {
       await Event.updateOne({ eid: eid }, { $set: { state: "result" } });
+      blockchain.web3.eth.getAccounts().then(async function(accounts){
+        var account;
+        for (var i = 0; i < 10; i++) {
+          if (req.session.ethaccount == accounts[i].toLowerCase()){
+            account = accounts[i];
+            console.log(accounts[i]);
+          }
+        }
+        await blockchain.contract.methods.changeeventstate(eid).send({from: account, gas:3000000}).then(console.log);
+      });
       console.log("Change event state successful");
     } else {
       console.log("This event is not in registration and voting state");
@@ -34,7 +55,6 @@ router.get("/:eid", async (req, res) => {
   } else {
     console.log("no event by this eid");
   }
-
   res.redirect("/mycreateevent");
 });
 

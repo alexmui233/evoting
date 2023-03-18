@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const Event = require("../models/event");
 const Record = require("../models/record");
+const blockchain = require("../public/js/events");
 const router = express.Router();
 require("request");
 
@@ -65,6 +66,16 @@ router.post("/:eid", async (req, res) => {
     });
     try {
       await record.save();
+      blockchain.web3.eth.getAccounts().then(async function(accounts){
+        var account;
+        for (var i = 0; i < 10; i++) {
+          if (req.body.ethacc == accounts[i].toLowerCase()){
+            account = accounts[i];
+            console.log(accounts[i]);
+          }
+        }
+        await blockchain.contract.methods.voting(eid, req.body.selectedanswer).send({from: account, gas:3000000}).then(console.log);
+      });
       console.log("record: ", record);
       console.log("connected!");
       res.redirect("/myjoinedevent");
