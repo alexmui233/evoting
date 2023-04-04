@@ -1,41 +1,47 @@
-body{
+body {
   margin: 0;
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
-padding: 0px;
-background-color: #DFDFDF;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 0px;
+  background-color: #DFDFDF;
+  height: 100%;
+  width: 100%;
 }
 
 .apdiv {
-text-align: center;
-margin: 0 auto;
-background-color: #DFDFDF;
-width: max-content;
+  text-align: center;
+  margin: 0 auto;
+  background-color: #DFDFDF;
+  width: max-content;
 }
-.apdiv h1{
- color: #39ac37;
- font-size: 50px;
- margin-top: 0px;
- padding-top: 33.5px;
- 
+
+.apdiv h1 {
+  color: #39ac37;
+  font-size: 50px;
+  margin-top: 0px;
+  padding-top: 33.5px;
+
 }
-.apdiv h2{
+
+.apdiv h2 {
   font-size: 30px;
   font-family: SlidoSans, helvetica, arial, sans-serif;
 }
 
-.apbox{ 
+.apbox {
   flex-direction: column;
   align-items: center;
   width: 100%;
   margin-top: 0%;
 }
-a{
+
+a {
   text-decoration: none;
   cursor: pointer;
 }
+
 .apboxcon {
   margin: 0 auto;
   width: 520px;
@@ -43,15 +49,17 @@ a{
   border-radius: 10px;
   background-color: white;
 }
-.apboxdiv{
-  width: 500px; 
+
+.apboxdiv {
+  width: 500px;
   background-color: white;
   margin: 10px;
   padding: 15px 20px;
   border-radius: 10px;
 }
-.apbtn{
-  float: right; 
+
+.apbtn {
+  float: right;
   font-size: 18px;
   color: white;
   background-color: #39ac37;
@@ -60,8 +68,9 @@ a{
   margin: 10px 10px;
   border-radius: 3px;
 }
-.apdisbtn{
-  float: right; 
+
+.apdisbtn {
+  float: right;
   font-size: 18px;
   color: white;
   background-color: #afafaf;
@@ -71,14 +80,110 @@ a{
   border-radius: 3px;
   pointer-events: none;
 }
+
 div.a {
-white-space: nowrap; 
-overflow: hidden;
-text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.svgpic{ 
+
+.apbtn:hover {
+  background-color: black;
+  color: white;
+}
+
+.svgpic {
   vertical-align: middle;
-   height: 25px; 
-   width: 25px; 
-   margin: 0px 0px 4px;
+  height: 25px;
+  width: 25px;
+  margin: 0px 0px 4px;
+}
+
+.overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+
+section {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+.modal-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+  width: 100%;
+  padding: 30px 20px;
+  border-radius: 24px;
+  background-color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(1.2);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  font-family: SlidoSans, helvetica, arial, sans-serif;
+}
+
+section.active .overlay {
+  backdrop-filter: blur(2px) brightness(50%);
+  z-index: 1;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+section.active .modal-box {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-box i {
+  font-size: 70px;
+  color: #39ac37;
+}
+
+.modal-box h2 {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 500;
+  color: #333;
+}
+
+.modal-box h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+}
+
+.modal-box .buttons {
+  margin-top: 25px;
+}
+
+.modal-box button {
+  font-size: 15px;
+  padding: 14px 22px;
+  margin: 0 10px;
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+  border: none;
+  background-color: #39ac37;
+  border-radius: 6px;
+}
+
+.close-btn:hover {
+  background-color: black;
 }

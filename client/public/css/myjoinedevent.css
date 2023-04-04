@@ -60,6 +60,10 @@ a{
     margin: 10px 10px;
     border-radius: 3px;
 }
+.apbtn:hover{
+    background-color: black;
+    color: white;
+}
 .apdisbtn{
     float: right; 
     font-size: 18px;

@@ -8,10 +8,7 @@ router.get("/", (req, res) => {
   res.render("createevent", {
     username: req.session.username,
     question_err: "",
-    answer1_err: "",
-    answer2_err: "",
-    answer3_err: "",
-    answer4_err: "",
+    answer_err: "",
     metamaskaddr_err: "",
   });
 });
@@ -25,20 +22,24 @@ router.post("/", async (req, res) => {
   } else {
     question_err = "";
   }
-
-  for (var i = 1; i < 5; i++) {
-    if (req.body["answer" + i] == "") {
-      eval(
-        "var " + "answer" + i + "_err" + " = " + "'Please enter a answer'" + ";"
-      );
-    } else {
-      eval("var " + "answer" + i + "_err" + " = " + "''" + ";");
+  console.log("req.body.countans: ", req.body.countans);
+  for (var i = 1; i <= req.body.countans; i++) {
+    if (req.body["answer" + i] != undefined){
+      if (req.body["answer" + i] == "") {
+        answer_err = "Please enter a answer";
+       /*  eval(
+          "var " + "answer_err" + " = " + "'Please enter a answer'" + ";"
+        ); */
+        console.log("answer_err = Please" + answer_err);
+        break;
+      } else {
+        answer_err = "";
+        //eval("var " + "answer_err" + " = " + "''" + ";");
+        console.log("answer_err = null" + answer_err);
+      }
     }
+    
   }
-  console.log("value1=" + answer1_err);
-  console.log("value2=" + answer2_err);
-  console.log("value3=" + answer3_err);
-  console.log("value4=" + answer4_err);
 
   if (req.body.ethacc === "") {
     metamaskaddr_err = "Please connect to metamask";
@@ -57,30 +58,28 @@ router.post("/", async (req, res) => {
 
   if (
     question_err !== "" ||
-    answer1_err !== "" ||
-    answer2_err !== "" ||
-    answer3_err !== "" ||
-    answer4_err !== "" ||
+    answer_err !== "" ||
     metamaskaddr_err !== ""
   ) {
     console.log("question_err: ", question_err);
+    console.log("answer_err: ", answer_err);
     res.render("createevent", {
       question_err: question_err,
-      answer1_err: answer1_err,
-      answer2_err: answer2_err,
-      answer3_err: answer3_err,
-      answer4_err: answer4_err,
+      answer_err: answer_err,
       metamaskaddr_err: metamaskaddr_err,
       username: req.session.username,
     });
     console.log("redirected createevent page");
   } else {
-    var countevent = await Event.estimatedDocumentCount();
+    //var countevent = await Event.estimatedDocumentCount();
     var answers = [];
-    for (var i = 1; i < 5; i++) {
-      answers.push(req.body["answer" + i]);
+    for (var i = 1; i <= req.body.countans; i++) {
+      if (req.body["answer" + i] != undefined){
+        answers.push(req.body["answer" + i]);
+        console.log("answers: ", answers);
+      }
     }
-    console.log("countevent: ", countevent);
+    /* console.log("countevent: ", countevent);
     var event = new Event({
       eid: countevent,
       question: req.body.question,
@@ -88,10 +87,10 @@ router.post("/", async (req, res) => {
       owner: req.session.username,
       participants: [],
       state: "registration",
-    });
+    }); */
     try {
-      await event.save();
-      blockchain.web3.eth.getAccounts().then(async function(accounts){
+      //await event.save();
+      await blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
@@ -99,16 +98,17 @@ router.post("/", async (req, res) => {
             console.log(accounts[i]);
           }
         }
-        await blockchain.contract.methods.createevent(req.body.question, answers, req.session.username, []).send({from: account, gas:3000000}).then(console.log);
+        await blockchain.contract.methods.createevent(req.body.question, answers, req.session.username).send({from: account, gas:3000000}).then(console.log);
       });
 
-      console.log("event: ", event);
+      //console.log("event: ", event);
       console.log("connected!");
       res.redirect("/mycreateevent");
     } catch (e) {
       console.log("error!\n", e);
     }
   }
+
 });
 
 module.exports = router;

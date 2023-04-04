@@ -33,8 +33,10 @@ checklogin();
 
                 <% if (events[i].state == "registration" && checkjoined[i] == false && events[i].owner != username) { %>
                   <a class="apbtn" href="/allevent/<%= events[i].eid %>">join</a>
+                <% } else if (checkjoined[i] == true) { %>
+                    <a class="apdisbtn">joined</a>
                 <% } else { %>
-                    <a class="apdisbtn">join</a>
+                  <a class="apdisbtn">join</a>
                 <% } %>
               </div>
               <div style="width: 300px;">

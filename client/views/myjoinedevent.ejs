@@ -23,26 +23,26 @@
       <h2>You can see what vote event you joined are listed below</h2>
       <br>
     </div>
-    <% for (let event of events) { %>
+    <% for (var i = 0; i < events.length; i++) { %>
     <div class="apbox">
       <div class="apboxcon">
         <div class="apboxdiv">
           <div style="width: max-content; height: max-content; float: right;">
-            <% if (event.state == "result") { %>
-              <a class="apbtn" href="/myjoinedevent/result/<%= event.eid %>">result</a>
+            <% if (events[i].state == "result") { %>
+              <a class="apbtn" href="/myjoinedevent/result/<%= events[i].eid %>">result</a>
             <% } else { %>
               <a class="apdisbtn">result</a>
             <% } %>
-            <% if (event.state == "voting") { %>
-            <a class="apbtn" href="/myjoinedevent/<%= event.eid %>">vote</a>
+            <% if (events[i].state == "voting") { %>
+            <a class="apbtn" href="/myjoinedevent/<%= events[i].eid %>">vote</a>
             <% } else { %>
               <a class="apdisbtn">vote</a>
             <% } %>
           </div>
           <div style="width: max-content;">
-            <div>question: <%= event.question %><br>
-              owner: <%= event.owner %><br>
-              state: <%= event.state %>
+            <div>question: <%= events[i].question %><br>
+              owner: <%= events[i].owner %><br>
+              state: <%= events[i].state %>
             </div>
           </div>
         </div>

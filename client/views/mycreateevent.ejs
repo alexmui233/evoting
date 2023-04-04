@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/mycreateevent.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        section:hover {
+            background: #DFDFDF;
+        }
+    </style>
     <!-- CSS only -->
     <!-- JS -->
     <script src="js/events.js"></script>
@@ -33,7 +39,7 @@
                                 <a class="apdisbtn">result</a>
                             <% } %>
                             <% if (event.state != "result") { %>
-                                <a class="apbtn" href="/mycreateevent/<%= event.eid %>">change state</a>
+                                <a class="apbtn csbtn" href="/mycreateevent/<%= event.eid %>">change state</a>
                             <% } else { %>
                                 <a class="apdisbtn">change state</a>
                             <% } %>
@@ -41,15 +47,36 @@
                         <div style="width: 300px;">
                             <div>question: <%= event.question %>
                             </div>
-                            participants: <%= event.participants.length %> <img class="svgpic" src="picture\people.svg"
+                            participants: <%= event.participants.length %> <img class="svgpic" src="../picture/people.svg"
                                     alt="votespic"><br>
                                 state: <%= event.state %>
                         </div>
                     </div>
                 </div>
             </div>
-            <% } %>
-                <script src="../js/metamask.js"></script>
+        <% } %>
+        <section style="background: #DFDFDF;">
+            <span class="overlay"></span>
+            <div class="modal-box">
+                <i class="fa-regular fa-circle-check"></i>
+                <h2>Changed</h2>
+                <h3>You have successfully change event state</h3>
+          
+                <div class="buttons">
+                  <a href="/mycreateevent"><button class="close-btn">Ok</button></a>
+                </div>
+            </div>
+        </section>
+            <script src="../js/metamask.js"></script>
+            <script>
+                const section  = document.querySelector("section"), 
+                showbtn = document.querySelectorAll(".csbtn");
+                for (var i = 0; i < showbtn.length; i++) {
+                    showbtn[i].addEventListener("click", () => {
+                        section.classList.add("active");
+                    });
+                }
+            </script>
 </body>
 
 </html>

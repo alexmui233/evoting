@@ -4,12 +4,15 @@ const blockchain = require("../public/js/events");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  var events = await Event.find({});
+  var events;
   var checkjoined = [];
-  for (var i = 0; i < events.length; i++){
-    console.log("events.participants.includes()", events[i].participants.includes(req.session.username));
-    checkjoined.push(events[i].participants.includes(req.session.username));
-  }
+  await blockchain.contract.methods.viewallevent().call().then(async function(_events){
+    for (var i = 0; i < _events.length; i++){
+      console.log("events.participants.includes()", _events[i].participants.includes(req.session.username));
+      checkjoined.push(_events[i].participants.includes(req.session.username));
+    }
+    events = _events;
+  });
   res.render("allevent", {
     username: req.session.username,
     events: events,
@@ -20,45 +23,37 @@ router.get("/", async (req, res) => {
 router.get("/:eid", async (req, res) => {
   var eid = req.params.eid;
   console.log("eid: ", eid);
-  var joinevent = await Event.findOne({ eid: eid });
-
-  if (joinevent !== null) {
-    console.log("joinevent: ", joinevent);
-    if (joinevent.owner !== req.session.username) {
-      if (joinevent.state == "registration") {
-        if (joinevent.participants.includes(req.session.username) == false) {
-          await Event.updateOne(
-            { eid: eid },
-            { $push: { participants: req.session.username } }
-          );
-          blockchain.web3.eth.getAccounts().then(async function(accounts){
-            var account;
-            for (var i = 0; i < 10; i++) {
-              if (req.session.ethaccount == accounts[i].toLowerCase()){
-                account = accounts[i];
-                console.log(accounts[i]);
+  await blockchain.contract.methods.viewevent(eid).call().then(async function(joinevent){
+    if (joinevent !== null) {
+      console.log("joinevent: ", joinevent);
+      if (joinevent.owner !== req.session.username) {
+        if (joinevent.state == "registration") {
+          if (joinevent.participants.includes(req.session.username) == false) {
+            await blockchain.web3.eth.getAccounts().then(async function(accounts){
+              var account;
+              for (var i = 0; i < 10; i++) {
+                if (req.session.ethaccount == accounts[i].toLowerCase()){
+                  account = accounts[i];
+                  console.log(accounts[i]);
+                }
               }
-            }
-            await blockchain.contract.methods.joinevent(eid, req.session.username).send({from: req.session.ethaccount, gas:3000000}).then(console.log);
-            // await blockchain.contract.methods.vieweventparticipants(eid).call().then(console.log());
-          });
-          
-          console.log("You join this event successfully");
+              await blockchain.contract.methods.joinevent(eid, req.session.username).send({from: req.session.ethaccount, gas:3000000}).then(console.log);
+              res.redirect("/allevent");
+            });
+            console.log("You join this event successfully");
+          } else {
+            console.log("You have been join this event");
+          }
         } else {
-          console.log("You have been join this event");
+          console.log("This event is not in registration state");
         }
       } else {
-        console.log("This event is not in registration state");
+        console.log("Cannot join your own event");
       }
     } else {
-      console.log("Cannot join your own event");
+      console.log("no event by this eid");
     }
-  } else {
-    console.log("no event by this eid");
-  }
-
-  res.redirect("/allevent");
-
+  });
 });
 
 module.exports = router;

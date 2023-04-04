@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../css/myvotingrecord.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- CSS only -->
+
+    <!-- JS -->
+    <script src="js/events.js"></script>
+</head>
+
+<body>
+    <%- include header %>
+        <div style="height: 100vh;  width: 100%; background-color:#39ac37">
+
+            <div style="background-color: white; width: 1150px; height: 100vh; margin: 0 auto;">
+                <div class="rediv">
+                    <h1 style="color: #39ac37;">Voting Record</h1>
+                    <h2 class="">You can enter transaction id to search your voting record below</h2>
+                </div>
+                <div>
+                    <form class="reform" action="/myvotingrecord" method="post">
+                      <span class="" style="color:red; font-size: 17px"><%= metamaskaddr_err %></span>
+                      <input class="" type="text" name="txid" placeholder="transaction id 0x..." value="">
+                      <span class="" style="color:red; font-size: 17px"><%= transactionid_err %></span>
+                      <input type="hidden" name="ethacc" id="ethacc" value="">
+                      <input class="submitbtn" type="submit" value="Search" style="cursor: pointer; padding: 0; border: none;">
+                      <br>
+                    </form>
+                    <% if (event.owner != undefined) { %>
+                        <form class="reform">
+                            <fieldset class="refieldset">
+                                <div class="reformdiv" style="margin: 10px auto;">
+                                    <p style="font-size: 30px; margin: 0px auto;">Transaction Details</p>
+                                    <hr>
+                                    <p>owner: <%= event.owner %></p>
+                                    <br>
+                                    <p>question: <%= event.question %></p>
+                                    <br>
+                                    <p>answer: <%= answer %></p>
+                                </div>
+                            </fieldset>
+                        </form>
+                    <% } %>
+                    
+                </div>
+            </div>
+        </div>
+        <script src="../js/metamask.js"></script>
+</body>
+
+</html>

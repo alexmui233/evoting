@@ -20,37 +20,29 @@
                 <h2 class="">Create a new vote event to our online voting system</h2>
             </div>
             <div>
-                <form class="reform" action="/createevent" method="post">
-                    <fieldset class="refieldset">
-                        <div class="reformdiv">
+                <fieldset class="refieldset">
+                    <div class="reformdiv">
+                        <form class="reform" action="/createevent" method="post">
                             <span class="" style="color:red; font-size: 17px"><%= metamaskaddr_err %></span>
                             <br>
-                            <input class="" type="text" name="question" placeholder=" question" style="cursor: text; width: 450px;" value="">
-                            <br>
+                            <input class="" type="text" name="question" placeholder="question" value="">
                             <span class="" style="color:red; font-size: 17px"><%= question_err %></span>
+                            <div class="field">
+                                <input type="text" name="answer1" placeholder="answer">
+                                <span class="spanbtn plus" onclick="addField(this)">+</span>
+                                <span class="spanbtn minus" style="display:none;" onclick="removeField(this)">-</span>
+                                <br>
+                            </div>
+                            <span class="spananserr" style="color:red; font-size: 17px"><%= answer_err %></span>
                             <br>
-                            <input class="" type="text" name="answer1" placeholder=" answer 1" style="cursor: text; width: 450px;" value="">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= answer1_err %></span>
-                            <br>
-                            <input class="" type="text" name="answer2" placeholder=" answer 2" style="cursor: text; width: 450px;" value="">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= answer2_err %></span>
-                            <br>
-                            <input class="" type="text" name="answer3" placeholder=" answer 3" style="cursor: text; width: 450px;" value="">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= answer3_err %></span>
-                            <br>
-                            <input class="" type="text" name="answer4" placeholder=" answer 4" style="cursor: text; width: 450px;" value="">
-                            <br>
-                            <span class="" style="color:red; font-size: 17px"><%= answer4_err %></span>
-                            <br>
+                            <input type="hidden" name="countans" id="countans" value="">
                             <input type="hidden" name="ethacc" id="ethacc" value="">
                             <input class="submitbtn" type="submit" value="Create" style="border: 0; padding: 0; width: 100%;">
-
-                        </div>
-                    </fieldset>
-                </form>
+                            <br>
+                        </form>
+                    </div>
+                </fieldset>
+                
             </div>
         </div>
     </div>
