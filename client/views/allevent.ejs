@@ -1,8 +1,3 @@
-<?php
-require_once "header.php";
-checklogin();
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -32,7 +27,7 @@ checklogin();
               <div style="width: max-content; height: max-content; float: right;">
 
                 <% if (events[i].state == "registration" && checkjoined[i] == false && events[i].owner != username) { %>
-                  <a class="apbtn" href="/allevent/<%= events[i].eid %>">join</a>
+                  <a class="apbtn" href="/allevent/<%= events[i].eid %>" onclick="this.style.pointerEvents = 'none';">join</a>
                 <% } else if (checkjoined[i] == true) { %>
                     <a class="apdisbtn">joined</a>
                 <% } else { %>

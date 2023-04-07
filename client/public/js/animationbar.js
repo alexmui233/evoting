@@ -1,4 +1,19 @@
-$(".animated-progress span").each(function () {
+/* function move() {
+  var elem = document.querySelector(".resultbar");
+  var width = 0;
+  var id = setInterval(frame, 10);
+  
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width++;
+      elem.style.width = width + "%";
+    }
+  }
+}
+move() */
+/* $(".animated-progress span").each(function () {
   $(this).animate(
     {
       width: $(this).attr("data-progress") + "%",
@@ -6,7 +21,7 @@ $(".animated-progress span").each(function () {
     1000
   );
   $(this).text($(this).attr("data-progress") + "%");
-});
+}); */
 /* function increase() {
   // Change the variable to modify the speed of the number increasing from 0 to (ms)
   let SPEED = 40;

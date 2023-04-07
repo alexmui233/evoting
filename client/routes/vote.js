@@ -7,11 +7,7 @@ const tr_sign = require("../public/js/traceableringsignature");
 const router = express.Router();
 require("request");
 
-/* router.get('/votesuccess', async (req, res) => {
-  res.render('votesuccess', {username: req.session.username});
-});
- */
-router.get('/:eid', async (req, res) => {
+router.get('/:eid', blockchain.requireLogin, async (req, res) => {
   var  event;
   
   var eid = req.params.eid;
@@ -23,13 +19,14 @@ router.get('/:eid', async (req, res) => {
   res.render('vote', {
     username: req.session.username,
     event: event,
+    voted_err: "",
     selectedanswer_err: "",
     metamaskaddr_err: ""});
 });
 
 
 router.post("/:eid", async (req, res) => {
-  var metamaskaddr_err = selectedanswer_err = "";
+  var metamaskaddr_err = selectedanswer_err = voted_err = "";
   var eid = req.params.eid;
 
   console.log("ethacc: ", req.body.ethacc);
@@ -69,6 +66,7 @@ router.post("/:eid", async (req, res) => {
     res.render("vote", {
       metamaskaddr_err: metamaskaddr_err,
       selectedanswer_err: selectedanswer_err,
+      voted_err: voted_err,
       event: event,
       username: req.session.username,
     });
@@ -87,35 +85,36 @@ router.post("/:eid", async (req, res) => {
         }
         var event;
         var pid;
-        var partlen;
+        //var partlen;
         await blockchain.contract.methods.viewevent(eid).call().then(async function(_event){
           event = _event;
-          partlen = _event.participants.length;
-          for (var i = 0; i < _event.participants.length; i++){
-            console.log("i: ", i);
+          //partlen = _event.participants.length;
+          pid = _event.participants.indexOf(req.session.username);
+          /* for (var i = 0; i < _event.participants.length; i++){
+            //console.log("i: ", i);
             if (_event.participants[i] == req.session.username) {
               pid = i;
-              console.log("pid: ", pid);
+              //console.log("pid: ", pid);
             }
-          }
+          } */
         });
 
         var userArray = [];
         var pKeys = [];
         await blockchain.contract.methods.viewalleventuserringdetail().call().then(async function(eventuserringdetail){
-          var i_1 = 1;
+          var i_1 = 0;
           for (var i = 0; i < eventuserringdetail.length; i++){
             
             //var urd_id = "eid" + eid + "participants" + i;
             var urd_id = "eid" + eid + "participants" + i_1;
-            console.log("urd_id: ", urd_id);
-            console.log("eventuserringdetail[i].urd_id: ", eventuserringdetail[i].urd_id);
+            /* console.log("urd_id: ", urd_id);
+            console.log("eventuserringdetail[i].urd_id: ", eventuserringdetail[i].urd_id); */
             if (eventuserringdetail[i].urd_id == urd_id) {
-              console.log("parseInt(eventuserringdetail[i].x): ", parseInt(eventuserringdetail[i].x));
+              /* console.log("parseInt(eventuserringdetail[i].x): ", parseInt(eventuserringdetail[i].x));
               console.log("parseInt(eventuserringdetail[i].y): ", parseInt(eventuserringdetail[i].y));
               console.log("eventuserringdetail[i].id: ", eventuserringdetail[i].id);
               console.log("eventuserringdetail[i].urd_id: ", eventuserringdetail[i].urd_id);
-
+ */
               userArray.push({ x: parseInt(eventuserringdetail[i].x), y: parseInt(eventuserringdetail[i].y), Pkeys: { g: tr_sign.g, y: parseInt(eventuserringdetail[i].y), G: tr_sign.G }, Skeys: { Pkeys: { g: tr_sign.g, y: parseInt(eventuserringdetail[i].y), G: tr_sign.G }, x: parseInt(eventuserringdetail[i].x) }, id: i_1 });
               console.log("userArray: ", userArray);
               pKeys.push({ Pkeys: { g: tr_sign.g, y: parseInt(eventuserringdetail[i].y), G: tr_sign.G } })
@@ -124,25 +123,66 @@ router.post("/:eid", async (req, res) => {
           }
         }); 
         
-        console.log("pKeys: ", pKeys);
-        console.log("userArray[pid]: ", userArray[pid]);
-        var signature = tr_sign.Sign("voted", "2", pKeys, userArray[pid], tr_sign.G, tr_sign.g, userArray);
-        console.log("userArray[pid]: ", userArray[pid]);
-        console.log("signature: ", signature);
+        /* console.log("pKeys: ", pKeys);
+        console.log("userArray[pid]: ", userArray[pid]); */
+        var message = "voted";
+        var new_signature = tr_sign.Sign(message, "2", pKeys, userArray[pid], tr_sign.G, tr_sign.g, userArray);
+        //console.log("userArray[pid]: ", userArray[pid]);
+        //console.log("new_signature: ", new_signature);
 
-        console.log("pKeys.lenght: ", pKeys.length);
-        var verify = tr_sign.Verify("2", pKeys, "voted", signature, tr_sign.G, tr_sign.g, userArray);
+        //console.log("pKeys.lenght: ", pKeys.length);
+        var verify = tr_sign.Verify("2", pKeys, message, new_signature, tr_sign.G, tr_sign.g, userArray);
         console.log("\nVerify: ", verify)
 
-        await blockchain.contract.methods.voting(eid, req.body.selectedanswer).send({from: account, gas:3000000}).then(async function name(trancontent) {
-          console.log("trancontent", trancontent);
-          console.log("trancontent.transactionHash", trancontent.transactionHash);
-          transactionid = trancontent.transactionHash;
-          res.render('votesuccess', { username: req.session.username, transactionid: transactionid });
+        var ps_id = "eid" + eid + "participants" + pid;
+        var old_signature;
+        await blockchain.contract.methods.viewpartsign(ps_id).call().then(async function (_old_signature) {
+          //console.log("_old__signature.signature", _old_signature.signature);
+          old_signature = _old_signature.signature;
         });
-
+        //console.log("old__signature", old_signature);
+        var trace = tr_sign.Trace("2", pKeys, tr_sign.g, tr_sign.G, message, old_signature, message, new_signature);
+        console.log("\nTrace: ", trace);
+        if (verify == true && trace != "linked") {
+          
+          var A = new_signature[0];
+          var B = new_signature[1];
+          var C = new_signature[2];
+          //var ps_id = "eid" + eid + "participants" + pid;
+          console.log("ps_id: ", ps_id);
+          const t0 = performance.now();
+          await blockchain.contract.methods.addpartsign(ps_id, [A], B, C).send({from: account, gas:3000000}).then(async function (partsign) {
+            //console.log("partsign", partsign);
+          });
+          const t1 = performance.now();
+          console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
+          const t2 = performance.now();
+          await blockchain.contract.methods.voting(eid, req.body.selectedanswer).send({from: account, gas:3000000}).then(async function name(trancontent) {
+            console.log("trancontent", trancontent);
+            console.log("trancontent.transactionHash", trancontent.transactionHash);
+            transactionid = trancontent.transactionHash;
+            res.render('votesuccess', { username: req.session.username, transactionid: transactionid });
+          });
+          const t3 = performance.now();
+          console.log(`Call to smart contract function took ${(t3 - t2) / 1000} seconds.`);
+          console.log("saved record!");
+        } else {
+          console.log("you have been voted!");
+          var event;
+          await blockchain.contract.methods.viewevent(req.params.eid).call().then(async function(_event){
+            event = _event;
+            console.log("event", event);
+          });
+          voted_err = "you have been voted!"
+          res.render("vote", {
+            metamaskaddr_err: metamaskaddr_err,
+            selectedanswer_err: selectedanswer_err,
+            voted_err: voted_err,
+            event: event,
+            username: req.session.username,
+          });
+        }
       });
-      console.log("saved record!");
     } catch (e) {
       console.log("error!\n", e);
     }

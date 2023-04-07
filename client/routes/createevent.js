@@ -1,10 +1,10 @@
 const express = require("express");
 const User = require("../models/user");
-const Event = require("../models/event");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", blockchain.requireLogin, (req, res) => {
+
   res.render("createevent", {
     username: req.session.username,
     question_err: "",
@@ -27,14 +27,12 @@ router.post("/", async (req, res) => {
     if (req.body["answer" + i] != undefined){
       if (req.body["answer" + i] == "") {
         answer_err = "Please enter a answer";
-       /*  eval(
-          "var " + "answer_err" + " = " + "'Please enter a answer'" + ";"
-        ); */
+
         console.log("answer_err = Please" + answer_err);
         break;
       } else {
         answer_err = "";
-        //eval("var " + "answer_err" + " = " + "''" + ";");
+
         console.log("answer_err = null" + answer_err);
       }
     }
@@ -71,7 +69,7 @@ router.post("/", async (req, res) => {
     });
     console.log("redirected createevent page");
   } else {
-    //var countevent = await Event.estimatedDocumentCount();
+
     var answers = [];
     for (var i = 1; i <= req.body.countans; i++) {
       if (req.body["answer" + i] != undefined){
@@ -79,17 +77,9 @@ router.post("/", async (req, res) => {
         console.log("answers: ", answers);
       }
     }
-    /* console.log("countevent: ", countevent);
-    var event = new Event({
-      eid: countevent,
-      question: req.body.question,
-      answers: answers,
-      owner: req.session.username,
-      participants: [],
-      state: "registration",
-    }); */
+
     try {
-      //await event.save();
+      
       await blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
@@ -98,10 +88,13 @@ router.post("/", async (req, res) => {
             console.log(accounts[i]);
           }
         }
+        const t0 = performance.now();
         await blockchain.contract.methods.createevent(req.body.question, answers, req.session.username).send({from: account, gas:3000000}).then(console.log);
+        const t1 = performance.now();
+        console.log(`Call to smart contract function took ${t1 - t0} milliseconds.`);
       });
 
-      //console.log("event: ", event);
+
       console.log("connected!");
       res.redirect("/mycreateevent");
     } catch (e) {

@@ -3,9 +3,10 @@ const Event = require("../models/event");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", blockchain.requireLogin, async (req, res) => {
   var events;
   var checkjoined = [];
+  const t0 = performance.now();
   await blockchain.contract.methods.viewallevent().call().then(async function(_events){
     for (var i = 0; i < _events.length; i++){
       console.log("events.participants.includes()", _events[i].participants.includes(req.session.username));
@@ -13,6 +14,8 @@ router.get("/", async (req, res) => {
     }
     events = _events;
   });
+  const t1 = performance.now();
+  console.log(`Call to smart contract function took ${t1 - t0} milliseconds.`);
   res.render("allevent", {
     username: req.session.username,
     events: events,
@@ -22,10 +25,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:eid", async (req, res) => {
   var eid = req.params.eid;
-  console.log("eid: ", eid);
+  //console.log("eid: ", eid);
+  const t0 = performance.now();
   await blockchain.contract.methods.viewevent(eid).call().then(async function(joinevent){
     if (joinevent !== null) {
-      console.log("joinevent: ", joinevent);
+      //console.log("joinevent: ", joinevent);
       if (joinevent.owner !== req.session.username) {
         if (joinevent.state == "registration") {
           if (joinevent.participants.includes(req.session.username) == false) {
@@ -37,7 +41,10 @@ router.get("/:eid", async (req, res) => {
                   console.log(accounts[i]);
                 }
               }
+              const t0 = performance.now();
               await blockchain.contract.methods.joinevent(eid, req.session.username).send({from: req.session.ethaccount, gas:3000000}).then(console.log);
+              const t1 = performance.now();
+              console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
               res.redirect("/allevent");
             });
             console.log("You join this event successfully");
@@ -54,6 +61,8 @@ router.get("/:eid", async (req, res) => {
       console.log("no event by this eid");
     }
   });
+  const t1 = performance.now();
+  console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
 });
 
 module.exports = router;

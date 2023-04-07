@@ -1,81 +1,96 @@
 .rediv {
-    text-align: center;
-    margin: 0 auto;
-    background-color: rgb(255, 255, 255);
-    width: max-content;
+  text-align: center;
+  margin: 0 auto;
+  background-color: rgb(255, 255, 255);
+  width: max-content;
 }
-.rediv h1{
-   font-size: 50px;
-   margin-top: 0px;
-   padding-top: 33.5px;
-   
-}
-.rediv h2{
-    font-size: 35px;
-    font-family: SlidoSans, helvetica, arial, sans-serif;
- }
 
-.rediv2{
-    float:left;
-    width: 50%;
-    height: 1000px;
-    position: fixed;
-    right: 0;
-    margin-left: 10px;
+.rediv h1 {
+  font-size: 50px;
+  margin-top: 0px;
+  padding-top: 33.5px;
+
 }
-.reform{
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 0%;
+
+.rediv h2 {
+  font-size: 35px;
+  font-family: SlidoSans, helvetica, arial, sans-serif;
 }
-a{
-    color: #2984fc;
-    text-decoration: none;
-    cursor: pointer;
+
+.rediv2 {
+  float: left;
+  width: 50%;
+  height: 1000px;
+  position: fixed;
+  right: 0;
+  margin-left: 10px;
 }
+
+.reform {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0%;
+}
+
+a {
+  color: #2984fc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .refieldset {
-    
-    width: 600px;
-    box-shadow: 0 0 15px #AAAAAA;
-    border-radius: 30px;
+
+  width: 600px;
+  box-shadow: 0 0 15px #AAAAAA;
+  border-radius: 30px;
 }
-.reformdiv{
-    width: 550px;
-    margin: 10px auto; 
+
+.reformdiv {
+  width: 550px;
+  margin: 10px auto;
 }
-.reform input{
-    font-size: 20px;
-    margin-top: 15px;
-    width: 720px;
-    height: 50px;
-    border: 1px solid black;
-    padding: 0px 0px 0px 5px;
-    cursor: text;
-    vertical-align: baseline;
-    border-radius: 4px;
+
+.reform input {
+  font-size: 20px;
+  margin-top: 15px;
+  width: 720px;
+  height: 50px;
+  border: 1px solid black;
+  padding: 0px 0px 0px 5px;
+  cursor: text;
+  vertical-align: baseline;
+  border-radius: 4px;
 }
-.submitbtn{
-    background-color: #39ac37; 
-    color: white; 
-    margin-bottom: 15px;
+
+.submitbtn {
+  background-color: #39ac37;
+  color: white;
+  margin-bottom: 15px;
 }
-.reformdiv p{
-  margin: 0px; 
-  font-size: 22px; 
+
+.submitbtn:hover {
+  background-color: black;
+}
+
+.reformdiv p {
+  margin: 0px;
+  font-size: 22px;
   width: fit-content;
 }
-.reformdiv label{
-    font-size: 20px;
-    display: inline-block;
-    padding: 3px 6px;
-    text-align: left;
-    width: 200px;
+
+.reformdiv label {
+  font-size: 20px;
+  display: inline-block;
+  padding: 3px 6px;
+  text-align: left;
+  width: 200px;
 }
-.ans{
+
+.ans {
   display: flex;
   height: 1rem;
   overflow: hidden;
@@ -84,38 +99,44 @@ a{
   background-color: #e9ecef;
   border-radius: 0.25rem;
 }
-.d{
+
+.d {
   width: 100%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
-.bar{
+
+.bar {
   position: relative;
-  background-color: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06); 
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
   backdrop-filter: blur(10px);
 }
-.bar div{
+
+.bar div {
   position: relative;
   width: 0;
   height: 10px;
   border-radius: 10px;
   background-color: #badefc;
   border: 1px solid #1c97fc;
-  box-shadow: 0 0 5px rgba(28,151,252,0.6);
+  box-shadow: 0 0 5px rgba(28, 151, 252, 0.6);
 }
-#html-bar{
+
+#html-bar {
   animation: html-fill 2s forwards;
 }
-.resultbar{
-  background-color: #39ac37; 
-  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+
+.resultbar {
+  background-color: #39ac37;
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
   background-size: 1rem 1rem;
 }
-@keyframes html-fill{
-  100%{
-      width: 90%;
+
+@keyframes html-fill {
+  100% {
+    width: 90%;
   }
 }

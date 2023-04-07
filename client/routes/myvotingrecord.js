@@ -3,7 +3,7 @@ const User = require("../models/user");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", blockchain.requireLogin, (req, res) => {
   res.render("myvotingrecord", {
     username: req.session.username,
     event: "",
@@ -54,19 +54,24 @@ router.post('/', async (req, res) => {
       else {
         txObject = _txObject;
         console.log(_txObject);
-        transactionid_err = "";
+        if (req.body.ethacc == txObject.from.toLowerCase()){
+          transactionid_err = "";
+          decodedInput = await blockchain.web3.eth.abi.decodeParameters(['uint256', 'string'], removeFunctionSelector(txObject.input));
+          console.log("eid:", decodedInput[0]);
+          console.log("answer:", decodedInput[1]);
+          console.log("type decodedInput[0]", typeof decodedInput[0]);
+          console.log("type decodedInput[0]", typeof parseInt(decodedInput[0]));
+          await blockchain.contract.methods.viewevent(decodedInput[0]).call().then(async function(_event){
+            event = _event;
+            console.log("can view event", event);
+          });
+        } else {
+          transactionid_err = "This transaction is not belong to you";
+        }
       }
     });
 
-    decodedInput = await blockchain.web3.eth.abi.decodeParameters(['uint256', 'string'], removeFunctionSelector(txObject.input));
-    console.log("eid:", decodedInput[0]);
-    console.log("answer:", decodedInput[1]);
-    console.log("type decodedInput[0]", typeof decodedInput[0]);
-    console.log("type decodedInput[0]", typeof parseInt(decodedInput[0]));
-    await blockchain.contract.methods.viewevent(decodedInput[0]).call().then(async function(_event){
-      event = _event;
-      console.log("can view event", event);
-    });
+    
   }
 
   if (

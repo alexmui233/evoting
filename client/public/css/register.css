@@ -72,9 +72,9 @@ a{
 }
 .submitbtn{
     background-color: #39ac37;
-    padding: 16px 24px; 
-    border: none; 
     color: white; 
-    cursor: pointer;
     margin-bottom: 15px;
+}
+.submitbtn:hover{
+    background-color: black;
 }

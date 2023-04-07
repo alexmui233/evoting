@@ -38,8 +38,9 @@
                                     <label for="<%= event.answers[i] %>"><%= event.answers[i] %></label><br>
                                 <% } %>
                                 <span class="" style="color:red; font-size: 17px"><%= selectedanswer_err %></span>
+                                <span class="" style="color:red; font-size: 17px"><%= voted_err %></span>
                                 <input type="hidden" name="ethacc" id="ethacc" value="">
-                                <input class="submitbtn" type="submit" style="border-color: none;" value="Respond">
+                                <input class="submitbtn" type="submit" style="border-color: none;" onclick="disablebtn()" value="Respond">
                             </div>
                             <br><br>
                         </fieldset>

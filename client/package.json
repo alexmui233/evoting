@@ -10,8 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.20",
-    "parcel": "^2.8.3"
+    "nodemon": "^2.0.20"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

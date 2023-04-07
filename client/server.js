@@ -31,6 +31,7 @@ app.use(session({
   resave: false, 
   secure: true
 }));
+
 app.use(cookieParser());
 
 
@@ -61,6 +62,17 @@ app.get('/index', function (req, res) {
   }
   
 });
+
+/* // Route to login
+app.get('/login', (req, res) => {
+  // Perform user authentication logic here...
+
+  // Set the isAuthenticated property to true if authentication succeeds
+  req.session.isAuthenticated = true;
+
+  // Redirect to the home page
+  res.redirect('/');
+}); */
 
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);

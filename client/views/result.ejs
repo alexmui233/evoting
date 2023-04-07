@@ -44,7 +44,6 @@
                                         <div class="resultbar" id="resultbar" <% /* eslint-disable css-propertyvalueexpected */ %> style="width: <%= per[i] %>%;"></div>
                                     </div>
                                     <br>
-                                    <script src="../js/animationbar.js"></script>
                                 </div>
                             <% } %>
                         </fieldset>
@@ -52,6 +51,73 @@
                 </div>
             </div>
         </div>
+        <script>
+            function move() {
+                var allElems = document.querySelectorAll(".resultbar");
+                var id = setInterval(frame, 10);
+                var currentWidth = 0;
+              
+                function frame() {
+                  for (var i = 0; i < allElems.length; i++) {
+                    var elem = allElems[i];
+                    var style = window.getComputedStyle(elem);
+                    var per = style.getPropertyValue("width");
+                    var perNum = parseFloat(per); // use parseFloat() instead of parseInt()
+                    console.log("perNum:", perNum);
+                    if (currentWidth >= perNum) {
+                      clearInterval(id);
+                    } else {
+                      currentWidth++;
+                      console.log("currentWidth:", currentWidth);
+                      elem.style.width = currentWidth + "px";
+                    }
+                  }
+                }
+              }
+            //move();
+              
+            function exmove() {
+                var allelem = document.querySelectorAll(".resultbar");
+                for (var i = 0; i < allelem.length; i++) {
+                    //var elem = document.querySelector(".resultbar");
+                    //var per = document.querySelector(".resultbar").style.width;
+                    var per = allelem[i].style.width;
+                    var per_num = per.replace(/%/, "");
+                    var width = 0;
+                    var id = setInterval(frame, 10);
+                    
+                    function frame() {
+                      console.log("per: ", per);
+                      console.log("per_num: ", per_num);
+
+                      if (width >= per_num) {
+                        clearInterval(id);
+                      } else {
+                        width++;
+                        allelem[i].style.width = width + "%";
+                        console.log("allelem[", i, "].style.width: ", allelem[i].style.width);
+                      }
+                    }
+                }  
+            }
+            //move()
+
+            function myMove() {
+                var elem = document.getElementById("resultbar");   
+                var width = 0;
+                var id = setInterval(frame, 10);
+                function frame() {
+                  if (width >= 50) {
+                    clearInterval(id);
+                  } else {
+                    width++; 
+                    elem.style.width = width + '%'; 
+                  }
+                }
+              }
+            //myMove()
+        </script>
+        <script src="../js/animationbar.js"></script>
 </body>
 
 </html>

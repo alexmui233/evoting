@@ -168,30 +168,44 @@ function HashPrimePrime(issue, message, publicKeys, g, p, q, A_0, A_1, a, b) {
 
 function Sign(message, issue, publicKeys, user, G, g, userArray) {
   var n = publicKeys.length;
+  /* if (user.id == 0){
+    var i = 1;
+  } else {
+    var i = user.id;
+  } */
   var i = user.id;
   var sigma = new Array(n).fill(null);
   var hashed = Hash(issue, publicKeys, g, p, q);
-  console.log("hashed: ", hashed);
+  //console.log("hashed: ", hashed);
   sigma[i] = fastpow(hashed, user.x, p);
-  console.log("sigma[", i, "]: ", sigma[i]);
+  //sigma[i-1] = fastpow(hashed, user.x, p);
+  //console.log("sigma[", i, "]: ", sigma[i]);
+  //console.log("sigma[", i-1, "]: ", sigma[i-1]);
   var A_0 = HashPrime(issue, publicKeys, g, p, q, message);
-  console.log("A_0: ", A_0);
+  //console.log("A_0: ", A_0);
   var A_1 = fastpow(fastpow(sigma[i] * fastpow(A_0, p - 2, p), 1, p), fastpow(i, q - 2, q), p);
-  console.log("A_1: ", A_1);
+  //var A_1 = fastpow(fastpow(sigma[i-1] * fastpow(A_0, p - 2, p), 1, p), fastpow(i, q - 2, q), p);
+  //console.log("A_1: ", A_1);
   for (let j = 0; j < n; j++) {
+    //console.log("sigma for j i: ", i-1);
+    //var tmp_i = i-1;
     if (j != i) {
       sigma[j] = fastpow(A_0 * fastpow(A_1, j, p), 1, p);
     }
-    console.log("sigma[", j, "] sign: ", sigma[j]);
+    //console.log("sigma[", j, "] sign: ", sigma[j]);
   }
-  console.log("sigma sign: ", sigma);
+  //console.log("sigma sign: ", sigma);
 
   w_i = Math.floor(Math.random() * (q - 1));
   //console.log("w_i: ", w_i);
   var a = new Array(n).fill(null);
   var b = new Array(n).fill(null);
   a[i] = fastpow(g, w_i, p);
+  // a[i-1] = fastpow(g, w_i, p);
   b[i] = fastpow(hashed, w_i, p);
+  //b[i-1] = fastpow(hashed, w_i, p);
+  /* console.log("a[", i-1,"]: ", a);
+  console.log("b[", i-1,"]: ", b); */
 
   var c = new Array(n).fill(null);
   var z = new Array(n).fill(null);
@@ -203,6 +217,10 @@ function Sign(message, issue, publicKeys, user, G, g, userArray) {
         b[j] = fastpow(fastpow(hashed, z[j], p) * fastpow(sigma[j], c[j], p), 1, p)
     }
   }
+  /* console.log("z: ", z);
+  console.log("c: ", c);
+  console.log("a: ", a);
+  console.log("b: ", b); */
   c_solo = HashPrimePrime(issue, message, publicKeys, g, p, q, A_0, A_1, a, b)
   
   var sum = 0;
@@ -216,14 +234,14 @@ function Sign(message, issue, publicKeys, user, G, g, userArray) {
   sum = Math.pow(sum, 1) % q;
   //console.log("sum fast: ", sum);
   //console.log("c_solo: ", c_solo);
-  /* if (c_solo - sum < 0) {
-    c[i] = (Math.pow(c_solo - sum, 1) + q) % q;
-  } else {
-    c[i] = Math.pow(c_solo - sum, 1) % q;
-  } */
+
   c[i] = Math.pow(c_solo - sum, 1) % q;
+  //c[i-1] = Math.pow(c_solo - sum, 1) % q;
   if (c[i] < 0)
     c[i] += q;
+  /* if (c[i-1] < 0)
+    c[i-1] += q; */  
+  //console.log("c: ", c);
 
   //console.log("c[i]: ", c[i]);
   //console.log("w_i: ", w_i);
@@ -231,9 +249,12 @@ function Sign(message, issue, publicKeys, user, G, g, userArray) {
   //console.log("w_i - c[i]*user.x: ", w_i - c[i]*user.x);
 
   z[i] = Math.pow((w_i - c[i]*user.x), 1) % q;
+  // z[i-1] = Math.pow((w_i - c[i-1]*user.x), 1) % q;
   if (z[i] < 0)
     z[i] += q;
-  //console.log("z[i]: ", z[i]);
+  /* if (z[i-1] < 0)
+    z[i-1] += q; */
+  //console.log("z: ", z);
 
   return [A_1, c, z]
 }
@@ -244,41 +265,41 @@ function Verify(issue, publicKeys, message, signature, G, g, userArray) {
   var z = signature[2];
   var n = publicKeys.length;
   //console.log("G: ", G);
-  console.log("A_1: ", A_1);
-  console.log("G.includes(g): ", G.includes(g))
+  /* console.log("A_1: ", A_1);
+  console.log("G.includes(g): ", G.includes(g)) */
   if (G.includes(g) == false)
     return false
-  console.log("G.includes(A_1): ", G.includes(A_1))
+  //console.log("G.includes(A_1): ", G.includes(A_1))
   if(G.includes(A_1) == false)
     return false
 
   Zq = [...Array(q).keys()];
   //console.log("Zq: ", Zq)
   for (var i = 0; i < n; i++) {
-    console.log("Zq.includes(c[i]): ", Zq.includes(c[i]));
-    console.log("c[i]: ", c[i]);
+    /* console.log("Zq.includes(c[i]): ", Zq.includes(c[i]));
+    console.log("c[i]: ", c[i]); */
     if(Zq.includes(c[i]) == false)
       return false
-    console.log("Zq.includes(z[i]): ", Zq.includes(z[i]));
-    console.log("z[i]: ", z[i]);
+    /* console.log("Zq.includes(z[i]): ", Zq.includes(z[i]));
+    console.log("z[i]: ", z[i]); */
     if(Zq.includes(z[i]) == false)
       return false
     //console.log("G: ", G);
     //console.log("TYPEOF userArray[i].y: ", typeof userArray[i].y)
-    console.log("G.includes(userArray[i].y): ", G.includes(userArray[i].y));
-    console.log("userArray[i].y: ", userArray[i].y);
+    /* console.log("G.includes(userArray[i].y): ", G.includes(userArray[i].y));
+    console.log("userArray[i].y: ", userArray[i].y); */
     if(G.includes(userArray[i].y) == false)
       return false
   }
   var hashed = Hash(issue, publicKeys, g, p, q);
-  console.log("hashed: ", hashed)
+  //console.log("hashed: ", hashed)
   var A_0 = HashPrime(issue, publicKeys, g, p, q, message);
 
   var sigma = new Array(n).fill(null);
   for (var i = 0; i < n; i++) {
     sigma[i] = fastpow(A_0 * fastpow(A_1, i, p), 1, p);
   }
-  console.log("sigma: ", sigma);
+  //console.log("sigma: ", sigma);
 
   var a = new Array(n).fill(null);
   var b = new Array(n).fill(null);
@@ -286,21 +307,21 @@ function Verify(issue, publicKeys, message, signature, G, g, userArray) {
     a[i] = fastpow(fastpow(g, z[i], p) * fastpow(userArray[i].y, c[i], p), 1, p)
     b[i] = fastpow(fastpow(hashed, z[i], p) * fastpow(sigma[i], c[i], p), 1, p)
   }
-  console.log("a: ", a);
+  /* console.log("a: ", a);
   console.log("b: ", b);
-
+ */
   var sum = 0;
   for (var i = 0; i < n; i++) {
       sum = sum + c[i];
   }
 
   var Hpp = HashPrimePrime(issue,message, publicKeys, g, p, q, A_0, A_1, a, b);
-  console.log("n: ", n);
+  /* console.log("n: ", n);
   console.log("Hpp: ", Hpp);
   console.log("sum: ", sum);
   console.log("fastpow(Hpp, 1, q): ", fastpow(Hpp, 1, q));
   console.log("fastpow(sum, 1, q): ", fastpow(sum, 1, q));
-  console.log("fastpow(Hpp, 1, q) != fastpow(sum, 1, q): ", fastpow(Hpp, 1, q) != fastpow(sum, 1, q));
+  console.log("fastpow(Hpp, 1, q) != fastpow(sum, 1, q): ", fastpow(Hpp, 1, q) != fastpow(sum, 1, q)); */
   if(fastpow(Hpp, 1, q) != fastpow(sum, 1, q))
     return false
     
@@ -370,34 +391,35 @@ function main() {
   //console.log("g: ", g);
   [ring, userArray] = myCreateRing(userNumber, g, G, q);
   //console.log("ring: ", ring);
-  console.log("userArray: ", userArray);
+  //console.log("userArray: ", userArray);
   
   var signature = Sign(message, issue, ring.pKeys, userArray[id], G, g, userArray);
-  //console.log("typeof signature: ", typeof signature);
   var signature2 = Sign(message2, issue, ring.pKeys, userArray[id2], G, g, userArray);
   var signature3 = Sign(message3, issue, ring.pKeys, userArray[id], G, g, userArray);
   var signature4 = Sign(message4, issue, ring.pKeys, userArray[id], G, g, userArray);
 
   //#TESTS
 
-    console.log("Verif of message and his signature : ")
-    console.log(Verify(issue, ring.pKeys, message, signature, G, g, userArray))
+  console.log("Verif of message and his signature : ");
+  console.log(Verify(issue, ring.pKeys, message, signature, G, g, userArray));
 
-    console.log("\nVerif of message2 and another signature : ")
-    console.log(Verify(issue, ring.pKeys, message2, signature, G, g, userArray))
+  console.log("\nVerif of message2 and another signature : ")
+  console.log(Verify(issue, ring.pKeys, message2, signature, G, g, userArray))
 
-    console.log("\nVerif of message2 and his signature : ")
-    console.log(Verify(issue, ring.pKeys, message2, signature2, G, g, userArray))
+  console.log("\nVerif of message2 and his signature : ")
+  console.log(Verify(issue, ring.pKeys, message2, signature2, G, g, userArray))
 
-    console.log("\nTrace of different message by different people :")
-    console.log(Trace(issue, ring.pKeys, g, G, message, signature, message2, signature2))
+  console.log("\nTrace of different message by different people :")
+  console.log(Trace(issue, ring.pKeys, g, G, message, signature, message2, signature2))
 
-    console.log("\nTrace of same message by the same person :")
-    console.log(Trace(issue, ring.pKeys, g, G, message, signature, message3, signature3))
+  console.log("\nTrace of same message by the same person :")
+  console.log("signature: ", signature);
+  console.log("signature3: ", signature3);
+  console.log(Trace(issue, ring.pKeys, g, G, message, signature, message3, signature3))
 
-    console.log("\nTrace of different message by the same person :")
-    console.log(Trace(issue, ring.pKeys, g, G, message, signature, message4, signature4))
+  console.log("\nTrace of different message by the same person :")
+  console.log(Trace(issue, ring.pKeys, g, G, message, signature, message4, signature4))
 }
-main();
+//main();
 
-module.exports = {main, buildG, myCreateRing, Sign, Verify, G, g, q};
+module.exports = {main, buildG, myCreateRing, Sign, Verify, Trace, G, g, q};

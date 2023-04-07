@@ -5,8 +5,8 @@ const Record = require("../models/record");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
-router.get('/:eid', async (req, res) => {
-  //var event = await Event.findOne({eid: req.params.eid});
+router.get('/:eid', blockchain.requireLogin, async (req, res) => {
+
   var eid = req.params.eid;
   console.log("eid: ", eid);
   var event;
@@ -17,8 +17,8 @@ router.get('/:eid', async (req, res) => {
   });
   var totalans = 0;
   var per = [];
-  /* var totalans = await Record.countDocuments({eid: {$eq: eid}});
-  console.log("totalans: ", totalans); */
+
+  const t0 = performance.now();
   await blockchain.contract.methods.viewallrecord().call().then(async function(records){
     for (var k = 0; k < records.length; k++) {
       if (records[k].eid == eid) {
@@ -46,6 +46,8 @@ router.get('/:eid', async (req, res) => {
       }
     }
   });
+  const t1 = performance.now();
+  console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
   res.render('result', {
     username: req.session.username,
     event: event,

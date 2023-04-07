@@ -1,32 +1,36 @@
-html{
+html {
     background: #39ac37;
 }
-body{
+
+body {
     margin: 0;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding: 0px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 0px;
 }
+
 .rediv {
     text-align: center;
     margin: 0 auto;
     background-color: rgb(255, 255, 255);
     width: max-content;
 }
-.rediv h1{
-   font-size: 50px;
-   margin-top: 0px;
-   padding-top: 33.5px;
-   
+
+.rediv h1 {
+    font-size: 50px;
+    margin-top: 0px;
+    padding-top: 33.5px;
+
 }
-.rediv h2{
+
+.rediv h2 {
     font-size: 35px;
     font-family: SlidoSans, helvetica, arial, sans-serif;
- }
+}
 
-.reform{
+.reform {
     display: flex;
     flex-direction: column;
     -webkit-box-align: center;
@@ -35,11 +39,13 @@ body{
     box-sizing: border-box;
     margin-top: 0%;
 }
-a{
+
+a {
     color: #2984fc;
     text-decoration: none;
     cursor: pointer;
 }
+
 .refieldset {
     margin: 0 auto;
     width: 400px;
@@ -47,11 +53,22 @@ a{
     box-shadow: 0 0 15px #AAAAAA;
     border-radius: 30px;
 }
-.reformdiv{
+
+.reformdiv {
     margin: 0 auto;
     width: max-content;
 }
-.reformdiv input{
+
+.loginbtn {
+    background-color: #39ac37;
+    color: white;
+}
+
+.loginbtn:hover {
+    background-color: black;
+}
+
+.reformdiv input {
     font-size: 20px;
     margin-top: 15px;
     width: 350px;
@@ -61,12 +78,4 @@ a{
     cursor: text;
     vertical-align: baseline;
     border-radius: 4px;
-}
-.submitbtn{
-    background-color: #39ac37;
-    padding: 16px 24px; 
-    border: none; 
-    color: white; 
-    cursor: pointer;
-    margin-bottom: 15px;
 }

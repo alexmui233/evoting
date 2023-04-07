@@ -33,8 +33,10 @@
             <% } else { %>
               <a class="apdisbtn">result</a>
             <% } %>
-            <% if (events[i].state == "voting") { %>
+            <% if (events[i].state == "voting" && checkvoted[i] == false) { %>
             <a class="apbtn" href="/myjoinedevent/<%= events[i].eid %>">vote</a>
+            <% } else if ((events[i].state == "voting" || events[i].state == "result") && checkvoted[i] == true) { %>
+              <a class="apdisbtn">voted</a>
             <% } else { %>
               <a class="apdisbtn">vote</a>
             <% } %>
@@ -47,7 +49,6 @@
           </div>
         </div>
       </div>
-    </div>
     </div>
     <% } %>
     <script src="../js/metamask.js"></script>
