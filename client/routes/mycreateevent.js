@@ -1,20 +1,27 @@
 const express = require("express");
-const Event = require("../models/event");
 const blockchain = require("../public/js/events");
 const tr_sign = require("../public/js/traceableringsignature");
 const router = express.Router();
 
 router.get("/", blockchain.requireLogin, async (req, res) => {
   var events = [];
-  await blockchain.contract.methods.viewallevent().call().then(async function(_events){
-    for (var i = 0; i < _events.length; i++){
-      if (_events[i].owner == req.session.username) {
-        //console.log("events.owner", _events[i].owner);
-        events.push(_events[i]);
-        //console.log("events", events);
-      }
+  const t0 = performance.now();
+  await blockchain.contract.methods.eventId().call().then(async function (_eventId) {
+    var eventId = _eventId;
+    console.log("_eventId: ", _eventId);
+    console.log("eventId: ", eventId);
+    for (var i = 0; i < eventId; i++) {
+      await blockchain.contract.methods.viewevent(i).call().then(async function (_events) {
+        if (_events.owner == req.session.username) {
+          console.log("events.owner", _events.owner);
+          events.push(_events);
+          console.log("events", events);
+        }
+      });
     }
   });
+  const t1 = performance.now();
+  console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
 
   res.render("mycreateevent", {
     username: req.session.username,
