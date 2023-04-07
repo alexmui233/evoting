@@ -4,7 +4,12 @@ pragma solidity ^0.8.17;
 contract evoting {
 
     uint256 public eventId;
-    uint256 public recordId;
+
+    struct User {
+        string username;
+        string password;
+        string addr;
+    }
 
     struct Event {
         uint256 eid;
@@ -16,7 +21,6 @@ contract evoting {
     }
 
     struct Record {
-        uint256 rid;
         uint256 eid;
         string answer;
     }
@@ -32,14 +36,18 @@ contract evoting {
         uint256[][] signature;
     }
 
+    User[] public alluser;
     Event[] public allevent;
     Record[] public allrecord;
     Userringdetail[] public alluserringdetail;
 
     mapping(uint256 => Event) votingevent;
-    mapping(uint256 => Record) eventrecord;
-    mapping(string => Userringdetail) eventuserringdetail;
     mapping(string => partsign) eventpartsign;
+
+    function createuser(string memory _username, string memory _password, string memory _addr) public returns (string memory) {
+        alluser.push(User(_username, _password, _addr));
+        return "create user successful";
+    }
 
     function createevent(
         string memory _question,
@@ -80,11 +88,7 @@ contract evoting {
         public
         returns (string memory)
     {
-        allrecord.push(Record(recordId, _eid, _answer));
-        eventrecord[_eid].rid = recordId;
-        eventrecord[_eid].eid = _eid;
-        eventrecord[_eid].answer = _answer;
-        recordId++;
+        allrecord.push(Record(_eid, _answer));
         return "voting event successful";
     }
 
@@ -95,14 +99,7 @@ contract evoting {
         string memory _urd_id // eid?participants?
     ) public returns (string memory) {
 
-        alluserringdetail.push(
-            Userringdetail(_x, _y, _id, _urd_id)
-        );
-        eventuserringdetail[_urd_id].x = _x;
-        eventuserringdetail[_urd_id].y = _y;
-        eventuserringdetail[_urd_id].id = _id;
-        eventuserringdetail[_urd_id].urd_id = _urd_id;
-
+        alluserringdetail.push(Userringdetail(_x, _y, _id, _urd_id));
         return "Create user ring detail successful";
     }
 
@@ -113,8 +110,11 @@ contract evoting {
         nestedArray[2] = _a2;
 
         eventpartsign[_ps_id].signature = nestedArray;
-
         return eventpartsign[_ps_id].signature;
+    }
+
+    function viewalluser() public view returns (User[] memory) {
+        return alluser;
     }
 
     function viewevent(uint256 _eid) public view returns (Event memory) {
@@ -123,23 +123,6 @@ contract evoting {
 
     function viewpartsign(string memory _ps_id) public view returns (partsign memory) {
         return (eventpartsign[_ps_id]);
-    }
-
-    function viewallevent() public returns (Event[] memory) {
-        delete allevent;
-        for (uint256 eid = 0; eid < eventId; eid++) {
-            allevent.push(
-                Event(
-                    votingevent[eid].eid,
-                    votingevent[eid].question,
-                    votingevent[eid].answers,
-                    votingevent[eid].owner,
-                    votingevent[eid].participants,
-                    votingevent[eid].state
-                )
-            );
-        }
-        return (allevent);
     }
 
     function viewallrecord() public view returns (Record[] memory) {

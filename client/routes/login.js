@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const blockchain = require("../public/js/events");
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -14,14 +15,36 @@ router.post('/', async (req, res) => {
     username_err = "Please enter a username";
   }
   else {
-    await User.findOne({username: req.body.username}).then(async user => {
+
+    await blockchain.contract.methods.viewalluser().call().then(async function(user){
+      console.log("viewuser user: ", user);
+      username_err = "No account found with that username";
+      for (let i = 0; i < user.length; i++) {
+        if (req.body.username == user[i].username){
+          username_err = "";
+          if (req.body.ethacc == ""){
+            metamaskaddr_err = "Please connect to metamask";
+          }
+          else {
+            console.log("type of ethacc: ", req.body.ethacc);
+            if (req.body.ethacc == user[i].addr){
+              metamaskaddr_err= "";
+            } 
+            else {
+              metamaskaddr_err = "No account found with that username & metamask";
+            };
+          };
+        };
+      }
+    });
+    /* await User.findOne({username: req.body.username}).then(async user => {
       if (user === null){
         username_err = "No account found with that username";
       } 
       else {
         username_err = "";
         if (req.body.ethacc == ""){
-          username_err = "Please connect to metamask";
+          metamaskaddr_err = "Please connect to metamask";
         }
         else {
           console.log("type of ethacc: ", req.body.ethacc);
@@ -35,7 +58,7 @@ router.post('/', async (req, res) => {
           });    
         };
       };
-    });    
+    });   */  
   };
 
   if (req.body.password === ""){
@@ -63,7 +86,6 @@ router.post('/', async (req, res) => {
   console.log("redirected: ", username_err);
   console.log("redirected: ", password_err);
   console.log("redirected: ", metamaskaddr_err);
-  console.log("redirected login page");
   console.log("redirected login page");
   if (username_err !== "" || password_err !== "" || metamaskaddr_err !== "") {
 

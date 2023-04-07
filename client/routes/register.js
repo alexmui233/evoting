@@ -1,10 +1,14 @@
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const blockchain = require("../public/js/events");
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+
   res.render('register', {username_err: "", email_err: "", password_err: "", confirm_password_err: "", metamaskaddr_err: "", username: ""});
+  
+  
 });
 
 router.get('/registersuccess', (req, res) => {
@@ -22,17 +26,39 @@ router.post('/', async (req, res) =>{
     username_err = "Please enter a username";
   }
   else {
-    await User.findOne({username: req.body.username }).then(user => {
+
+    await blockchain.contract.methods.viewalluser().call().then(async function(user){
+        console.log("viewuser user: ", user);
+        for (let i = 0; i < user.length; i++) {
+          if (req.body.username == user[i].username){
+            username_err = "This username is already taken";
+          };
+          if (req.body.ethacc == user[i].addr){
+            metamaskaddr_err = "This metamask account is already taken";
+          };
+        }
+        /* for (let i = 0; i < user.length; i++) {
+          if (req.body.ethacc == user[i].addr){
+            metamaskaddr_err = "This metamask account is already taken";
+            break;
+          } 
+          else {
+            metamaskaddr_err = "";
+          };
+        } */
+    });
+      
+    /* await User.findOne({username: req.body.username }).then(user => {
       if (user !== null){
         username_err = "This username is already taken";
       } 
       else {
         username_err = "";
       };
-    });    
+    });   */  
   };
 
-  if (req.body.email === ""){
+  /* if (req.body.email === ""){
     email_err = "Please enter a email";
   }
   else {
@@ -44,7 +70,7 @@ router.post('/', async (req, res) =>{
         email_err = "";
       };
     });    
-  }
+  } */
 
   if (req.body.password === ""){
     password_err = "Please enter a password";
@@ -60,7 +86,7 @@ router.post('/', async (req, res) =>{
     confirm_password_err = "Password did not match";
   }
 
-  if (req.body.ethacc === "") {
+  /* if (req.body.ethacc === "") {
     metamaskaddr_err = "Please connect to metamask";
   } else {
     await User.findOne({address: req.body.ethacc}).then(address => {
@@ -71,9 +97,9 @@ router.post('/', async (req, res) =>{
         metamaskaddr_err = "";
       };
     });    
-  };
+  }; */
 
-  if (username_err !== "" || email_err !== "" || password_err !== "" || confirm_password_err !== "" || metamaskaddr_err !== "") {
+  if (username_err !== "" || password_err !== "" || confirm_password_err !== "" || metamaskaddr_err !== "") {
 
     res.render('register', {
       username_err: username_err,
@@ -86,7 +112,7 @@ router.post('/', async (req, res) =>{
     console.log("redirected register page");
 
   }else {
-    var countuser = await User.estimatedDocumentCount();
+    /* var countuser = await User.estimatedDocumentCount();
     console.log("countuser: ", countuser);
     var user = new User({
       uid: countuser,
@@ -94,9 +120,26 @@ router.post('/', async (req, res) =>{
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 10),
       address: req.body.ethacc
-    });
+    }); */
+    
+
     try{
-      user = await user.save();
+      //user = await user.save();
+      var hashed_password = await bcrypt.hash(req.body.password, 10);
+      await blockchain.web3.eth.getAccounts().then(async function(accounts){
+        var account;
+        for (var i = 0; i < 10; i++) {
+          if (req.body.ethacc == accounts[i].toLowerCase()){
+            account = accounts[i];
+            console.log(accounts[i]);
+          }
+        }
+        const t0 = performance.now();
+        await blockchain.contract.methods.createuser(req.body.username, hashed_password, req.body.ethacc).send({from: account, gas:3000000}).then(console.log);
+        const t1 = performance.now();
+        console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
+      });
+      
       console.log("connected!");
       res.redirect('/register/registersuccess');
     }catch (e){

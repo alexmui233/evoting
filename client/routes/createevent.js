@@ -91,7 +91,7 @@ router.post("/", async (req, res) => {
         const t0 = performance.now();
         await blockchain.contract.methods.createevent(req.body.question, answers, req.session.username).send({from: account, gas:3000000}).then(console.log);
         const t1 = performance.now();
-        console.log(`Call to smart contract function took ${t1 - t0} milliseconds.`);
+        console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
       });
 
 
