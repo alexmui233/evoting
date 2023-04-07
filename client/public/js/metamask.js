@@ -14,8 +14,10 @@ async function getAccount() {
     }
     document.getElementById("countans").value = countans;
     console.log("countans: ", countans);
-  }
-}
+  } else {
+		window.alert("Please install metamask first.");
+	}
+} 
 
 // Update the selected account and chain id on change
 ethereum.on("accountsChanged", getAccount);

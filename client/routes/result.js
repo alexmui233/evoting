@@ -1,7 +1,4 @@
 const express = require("express");
-const User = require("../models/user");
-const Event = require("../models/event");
-const Record = require("../models/record");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
