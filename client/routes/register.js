@@ -1,5 +1,4 @@
 const express = require("express");
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const blockchain = require("../public/js/events");
 const router = express.Router();
@@ -71,7 +70,7 @@ router.post('/', async (req, res) =>{
     try{
       
       var hashed_password = await bcrypt.hash(req.body.password, 10);
-      blockchain.web3.eth.getAccounts().then(async function(accounts){
+      await blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){

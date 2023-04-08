@@ -36,7 +36,7 @@ router.get("/:eid", async (req, res) => {
     if (changestateevent !== null) {
       //console.log("changestateevent: ", changestateevent);
       if (changestateevent.state == "registration") {
-        blockchain.web3.eth.getAccounts().then(async function(accounts){
+        await blockchain.web3.eth.getAccounts().then(async function(accounts){
           var account;
           for (var i = 0; i < 10; i++) {
             if (req.session.ethaccount == accounts[i].toLowerCase()){

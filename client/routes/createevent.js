@@ -42,7 +42,16 @@ router.post("/", async (req, res) => {
   if (req.body.ethacc === "") {
     metamaskaddr_err = "Please connect to metamask";
   } else {
-    await User.findOne({
+    await blockchain.contract.methods.viewalluser().call().then(async function(user){
+      console.log("viewuser user: ", user);
+      metamaskaddr_err = "Please use your linked metamask account";
+      for (let i = 0; i < user.length; i++) {
+        if (req.session.username == user[i].username && req.body.ethacc == user[i].addr){
+          metamaskaddr_err = "";
+        };
+      }
+    });
+    /* await User.findOne({
       username: req.session.username,
       address: req.body.ethacc,
     }).then((matchacc) => {
@@ -51,7 +60,7 @@ router.post("/", async (req, res) => {
       } else {
         metamaskaddr_err = "";
       }
-    });
+    }); */
   }
 
   if (
@@ -80,7 +89,7 @@ router.post("/", async (req, res) => {
 
     try {
       
-      blockchain.web3.eth.getAccounts().then(async function(accounts){
+      await blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){

@@ -73,7 +73,7 @@ router.post("/:eid", async (req, res) => {
 
     try {
       var transactionid;
-      blockchain.web3.eth.getAccounts().then(async function(accounts){
+      await blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
