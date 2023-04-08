@@ -1,5 +1,4 @@
 const express = require("express");
-const User = require("../models/user");
 const blockchain = require("../public/js/events");
 const router = express.Router();
 
@@ -51,16 +50,6 @@ router.post("/", async (req, res) => {
         };
       }
     });
-    /* await User.findOne({
-      username: req.session.username,
-      address: req.body.ethacc,
-    }).then((matchacc) => {
-      if (matchacc === null) {
-        metamaskaddr_err = "Please use your linked metamask account";
-      } else {
-        metamaskaddr_err = "";
-      }
-    }); */
   }
 
   if (

@@ -49,6 +49,7 @@ router.get("/:eid", async (req, res) => {
           const t1 = performance.now();
           console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
           //console.log("changestateevent.participants: ", changestateevent.participants);
+          
           var [ring, userArray] = tr_sign.myCreateRing(changestateevent.participants.length, tr_sign.g, tr_sign.G, tr_sign.q);
           /* console.log("ring_mycre: ", ring);
           console.log("userArray_mycre: ", JSON.stringify(userArray)); */
