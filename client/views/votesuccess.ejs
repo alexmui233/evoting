@@ -48,6 +48,9 @@
                 width: 30px;
                 margin: 0px;
             }
+            .svgpicbtn:hover{
+                border: 2px solid black;
+            }
         </style>
         
     </head>
@@ -60,7 +63,7 @@
             Anyone with this Transaction Id can view your voting record</p>
             <div style="align-items: center;">
                 <p id="txid" style="font-size: 25px; display:inline-block; margin-right:30px;"><%= transactionid  %></p>
-                <button onclick="copyToClipboard()" style="height: 40px; width: 40px; padding:0px; border:none; background-color: white;
+                <button class="svgpicbtn" onclick="copyToClipboard()" style="height: 40px; width: 40px; padding:0px; border:none; background-color: white;
                 border-radius: 5px; display:inline-block;"><img class="svgpic" src="../picture/copy.svg"
                     alt="votespic"></button>
             </div>

@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <form class="reform" action="/register" method="post">
-                        <fieldset class="refieldset" style="height: 440px;">
+                        <fieldset class="refieldset" style="height:max-content;">
                             <div class="reformdiv">
                                 <span class="" style="color:red; font-size: 17px">
                                     <%= metamaskaddr_err %>
@@ -37,13 +37,6 @@
                                 <br>
                                 <span class="" style="color:red; font-size: 17px">
                                     <%= username_err %>
-                                </span>
-                                <br>
-                                <input class="form-control" value="" type="email" name="email" id="email"
-                                    placeholder="Email">
-                                <br>
-                                <span class="" style="color:red; font-size: 17px">
-                                    <%= email_err %>
                                 </span>
                                 <br>
                                 <input class="form-control" value="" type="password" name="password" id="password"

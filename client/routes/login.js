@@ -1,5 +1,4 @@
 const express = require("express");
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const blockchain = require("../public/js/events");
 const router = express.Router();
@@ -15,7 +14,6 @@ router.post('/', async (req, res) => {
     username_err = "Please enter a username";
   }
   else {
-
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
       console.log("viewuser user: ", user);
       username_err = "No account found with that username";
@@ -37,50 +35,31 @@ router.post('/', async (req, res) => {
         };
       }
     });
-    /* await User.findOne({username: req.body.username}).then(async user => {
-      if (user === null){
-        username_err = "No account found with that username";
-      } 
-      else {
-        username_err = "";
-        if (req.body.ethacc == ""){
-          metamaskaddr_err = "Please connect to metamask";
-        }
-        else {
-          console.log("type of ethacc: ", req.body.ethacc);
-          await User.findOne({username: req.body.username, address: req.body.ethacc}).then(matchacc => {
-            if (matchacc === null){
-              metamaskaddr_err = "No account found with that username & metamask";
-            } 
-            else {
-              metamaskaddr_err= "";
-            };
-          });    
-        };
-      };
-    });   */  
   };
 
   if (req.body.password === ""){
     password_err = "Please enter a password";
   }
   else {
-    await User.findOne({username: req.body.username, address: req.body.ethacc}).then(async user => {
-      if (user !== null){
-        await bcrypt.compare(req.body.password, user.password).then(async result => {
-          if (result == false){
-            password_err = "The password you entered was not valid";
-          }
-          else {
-            password_err = "";
-            console.log("Login successful");
-            req.session.username = req.body.username;
-            req.session.ethaccount = req.body.ethacc;
-            req.session.save();
-            res.redirect('/index');
-          };
-        });
-      };
+    await blockchain.contract.methods.viewalluser().call().then(async function(user){
+      console.log("viewuser user: ", user);
+      for (let i = 0; i < user.length; i++) {
+        if (req.body.username == user[i].username && req.body.ethacc == user[i].addr){
+          await bcrypt.compare(req.body.password, user[i].password).then(async result => {
+            if (result == false){
+              password_err = "The password you entered was not valid";
+            }
+            else {
+              password_err = "";
+              console.log("Login successful");
+              req.session.username = req.body.username;
+              req.session.ethaccount = req.body.ethacc;
+              req.session.save();
+              res.redirect('/index');
+            };
+          });
+        };
+      }
     });
   }
   console.log("redirected: ", username_err);

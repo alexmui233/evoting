@@ -1,7 +1,5 @@
 const express = require("express");
 const User = require("../models/user");
-const Event = require("../models/event");
-const Record = require("../models/record");
 const blockchain = require("../public/js/events");
 const tr_sign = require("../public/js/traceableringsignature");
 const router = express.Router();
@@ -151,7 +149,7 @@ router.post("/:eid", async (req, res) => {
           //var ps_id = "eid" + eid + "participants" + pid;
           console.log("ps_id: ", ps_id);
           const t0 = performance.now();
-          await blockchain.contract.methods.addpartsign(ps_id, [A], B, C).send({from: account, gas:3000000}).then(async function (partsign) {
+          await blockchain.contract.methods.addpartsign(ps_id, [A], B, C).send({from: account, gas:3000000}).then(async function () {
             //console.log("partsign", partsign);
           });
           const t1 = performance.now();

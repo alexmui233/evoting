@@ -37,40 +37,8 @@ router.post('/', async (req, res) =>{
             metamaskaddr_err = "This metamask account is already taken";
           };
         }
-        /* for (let i = 0; i < user.length; i++) {
-          if (req.body.ethacc == user[i].addr){
-            metamaskaddr_err = "This metamask account is already taken";
-            break;
-          } 
-          else {
-            metamaskaddr_err = "";
-          };
-        } */
-    });
-      
-    /* await User.findOne({username: req.body.username }).then(user => {
-      if (user !== null){
-        username_err = "This username is already taken";
-      } 
-      else {
-        username_err = "";
-      };
-    });   */  
+    }); 
   };
-
-  /* if (req.body.email === ""){
-    email_err = "Please enter a email";
-  }
-  else {
-    await User.findOne({email: req.body.email }).then(email => {
-      if (email !== null){
-        email_err = "This email is already taken";
-      } 
-      else {
-        email_err = "";
-      };
-    });    
-  } */
 
   if (req.body.password === ""){
     password_err = "Please enter a password";
@@ -86,19 +54,6 @@ router.post('/', async (req, res) =>{
     confirm_password_err = "Password did not match";
   }
 
-  /* if (req.body.ethacc === "") {
-    metamaskaddr_err = "Please connect to metamask";
-  } else {
-    await User.findOne({address: req.body.ethacc}).then(address => {
-      if (address !== null){
-        metamaskaddr_err = "This metamask account is already taken";
-      } 
-      else {
-        metamaskaddr_err = "";
-      };
-    });    
-  }; */
-
   if (username_err !== "" || password_err !== "" || confirm_password_err !== "" || metamaskaddr_err !== "") {
 
     res.render('register', {
@@ -111,22 +66,12 @@ router.post('/', async (req, res) =>{
     });
     console.log("redirected register page");
 
-  }else {
-    /* var countuser = await User.estimatedDocumentCount();
-    console.log("countuser: ", countuser);
-    var user = new User({
-      uid: countuser,
-      username: req.body.username,
-      email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 10),
-      address: req.body.ethacc
-    }); */
-    
+  }else {    
 
     try{
-      //user = await user.save();
+      
       var hashed_password = await bcrypt.hash(req.body.password, 10);
-      await blockchain.web3.eth.getAccounts().then(async function(accounts){
+      blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
