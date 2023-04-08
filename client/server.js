@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require('mongoose');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
@@ -42,9 +41,6 @@ app.engine('ejs', engine);
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://127.0.0.1:27017/evoting', {useNewUrlParser: true});
-
 app.get('/', function (req, res) {
   res.render('index', {username: ""});
 });
@@ -62,17 +58,6 @@ app.get('/index', function (req, res) {
   }
   
 });
-
-/* // Route to login
-app.get('/login', (req, res) => {
-  // Perform user authentication logic here...
-
-  // Set the isAuthenticated property to true if authentication succeeds
-  req.session.isAuthenticated = true;
-
-  // Redirect to the home page
-  res.redirect('/');
-}); */
 
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);

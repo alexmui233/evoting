@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
 
     try {
       
-      await blockchain.web3.eth.getAccounts().then(async function(accounts){
+      blockchain.web3.eth.getAccounts().then(async function(accounts){
         var account;
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
