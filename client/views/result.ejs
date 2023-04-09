@@ -9,9 +9,8 @@
     <link href="../css/result.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- CSS only -->
-    <style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    </style>
 </head>
 
 <body>
@@ -27,6 +26,7 @@
                     <form class="reform" action="" method="post">
                         <fieldset class="refieldset">
                             <div class="reformdiv" style="margin: 10px auto; display:inline;">
+                                <br>
                                 <p style=" margin: 0px; font-size: 22px;width: fit-content; float: left;">question: <%= event.question %></p>
                                 <p style="float: right;  margin: 0px; font-size: 22px;"> voters: <%= totalans %><img src="../picture\people.svg" alt="" class="svgpic"></p>
                                 <br><br>
@@ -41,7 +41,7 @@
                                     </label>
                                     <div
                                         style=" display: flex; height: 1rem; overflow: hidden; line-height: 0; font-size: .75rem; background-color: #e9ecef; border-radius: 0.25rem;">
-                                        <div class="resultbar" id="resultbar" <% /* eslint-disable css-propertyvalueexpected */ %> style="width: <%= per[i] %>%;"></div>
+                                        <div class="resultbar" id="anime<%= i %>" <% /* eslint-disable css-propertyvalueexpected */ %> style="width: 0%;"></div>
                                     </div>
                                     <br>
                                 </div>
@@ -52,72 +52,16 @@
             </div>
         </div>
         <script>
-            function move() {
-                var allElems = document.querySelectorAll(".resultbar");
-                var id = setInterval(frame, 10);
-                var currentWidth = 0;
-              
-                function frame() {
-                  for (var i = 0; i < allElems.length; i++) {
-                    var elem = allElems[i];
-                    var style = window.getComputedStyle(elem);
-                    var per = style.getPropertyValue("width");
-                    var perNum = parseFloat(per); // use parseFloat() instead of parseInt()
-                    console.log("perNum:", perNum);
-                    if (currentWidth >= perNum) {
-                      clearInterval(id);
-                    } else {
-                      currentWidth++;
-                      console.log("currentWidth:", currentWidth);
-                      elem.style.width = currentWidth + "px";
-                    }
-                  }
-                }
-              }
-            //move();
-              
-            function exmove() {
-                var allelem = document.querySelectorAll(".resultbar");
-                for (var i = 0; i < allelem.length; i++) {
-                    //var elem = document.querySelector(".resultbar");
-                    //var per = document.querySelector(".resultbar").style.width;
-                    var per = allelem[i].style.width;
-                    var per_num = per.replace(/%/, "");
-                    var width = 0;
-                    var id = setInterval(frame, 10);
-                    
-                    function frame() {
-                      console.log("per: ", per);
-                      console.log("per_num: ", per_num);
-
-                      if (width >= per_num) {
-                        clearInterval(id);
-                      } else {
-                        width++;
-                        allelem[i].style.width = width + "%";
-                        console.log("allelem[", i, "].style.width: ", allelem[i].style.width);
-                      }
-                    }
-                }  
+          $(document).ready(function(){
+            var perArrstr = "<%= per %>";
+            var perArray = [];
+            perArray.push(perArrstr.split(','));
+            for (var i = 0; i < perArray[0].length; i++){
+              var animei = "anime" + i;
+              $("#" + animei).animate({width: perArray[0][i] + "%"});
             }
-            //move()
-
-            function myMove() {
-                var elem = document.getElementById("resultbar");   
-                var width = 0;
-                var id = setInterval(frame, 10);
-                function frame() {
-                  if (width >= 50) {
-                    clearInterval(id);
-                  } else {
-                    width++; 
-                    elem.style.width = width + '%'; 
-                  }
-                }
-              }
-            //myMove()
+          });
         </script>
-        <script src="../js/animationbar.js"></script>
 </body>
 
 </html>

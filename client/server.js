@@ -46,15 +46,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/index', function (req, res) {
-  console.log("undefined req.session.username: ", req.session.username);
   if (req.session.username !== "" && req.session.username !== undefined){
     res.render('index', {username: req.session.username});
-    console.log('get req.session: ', req.session);
-    console.log('get req.session:', req.sessionID);
   }  else{
     res.render('index', {username: ""});
-    console.log(req.session);
-    console.log(req.sessionID);
   }
   
 });
