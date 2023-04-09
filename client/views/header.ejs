@@ -14,17 +14,17 @@
 </head>
 
 <body>
-    <div class="navbar">
+    <div class="navbar" id="navbar">
         <a class="webname">Happy Voting</a>
-        <a href="/index">Home</a>
-        <a href="/createevent">Create Vote</a>
-        <a href="/allevent">All Vote</a>
-        <a href="/mycreateevent">My Own Vote</a>
-        <a href="/myjoinedevent">My Joined Vote</a>
-        <a href="/myvotingrecord">View My Voting Record</a>
-        <div class="dropdown" style="float: right;">
+        <a class="navbarpage" href="/index">Home</a>
+        <a class="navbarpage" href="/createevent">Create Vote</a>
+        <a class="navbarpage" href="/allevent">All Vote</a>
+        <a class="navbarpage" href="/mycreateevent">My Own Vote</a>
+        <a class="navbarpage" href="/myjoinedevent">My Joined Vote</a>
+        <a class="navbarpage" href="/myvotingrecord">View My Voting Record</a>
+        <div class="dropdown" id="dropdown">
             <% if (username !== "" && username !== undefined) {%>
-                <button class="dropbtn" onclick="droplist()">
+                <button class="dropbtn" id="dropbtn" onclick="droplist()">
                     <i class="bi-person-square"></i>
                     <%- username %>
                     <i class="fa fa-caret-down"></i>
@@ -38,6 +38,9 @@
                 <a href="/register">Sign Up</a>
             <% } %>
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="shownav()">
+            <i class="fa fa-bars"></i>
+          </a>
     </div>
 </body>
 
