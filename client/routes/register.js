@@ -4,10 +4,7 @@ const blockchain = require("../public/js/events");
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-
   res.render('register', {username_err: "", email_err: "", password_err: "", confirm_password_err: "", metamaskaddr_err: "", username: ""});
-  
-  
 });
 
 router.get('/registersuccess', (req, res) => {
@@ -27,7 +24,6 @@ router.post('/', async (req, res) =>{
   else {
 
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-        console.log("viewuser user: ", user);
         for (let i = 0; i < user.length; i++) {
           if (req.body.username == user[i].username){
             username_err = "This username is already taken";
@@ -75,7 +71,6 @@ router.post('/', async (req, res) =>{
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
             account = accounts[i];
-            console.log(accounts[i]);
           }
         }
         const t0 = performance.now();

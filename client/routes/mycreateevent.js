@@ -8,14 +8,11 @@ router.get("/", blockchain.requireLogin, async (req, res) => {
   const t0 = performance.now();
   await blockchain.contract.methods.eventId().call().then(async function (_eventId) {
     var eventId = _eventId;
-    console.log("_eventId: ", _eventId);
-    console.log("eventId: ", eventId);
     for (var i = 0; i < eventId; i++) {
       await blockchain.contract.methods.viewevent(i).call().then(async function (_events) {
         if (_events.owner == req.session.username) {
           console.log("events.owner", _events.owner);
           events.push(_events);
-          console.log("events", events);
         }
       });
     }
@@ -31,24 +28,21 @@ router.get("/", blockchain.requireLogin, async (req, res) => {
 
 router.get("/:eid", async (req, res) => {
   var eid = req.params.eid;
-  //console.log("eid: ", eid);
+
   await blockchain.contract.methods.viewevent(eid).call().then(async function(changestateevent){
     if (changestateevent !== null) {
-      //console.log("changestateevent: ", changestateevent);
       if (changestateevent.state == "registration") {
         await blockchain.web3.eth.getAccounts().then(async function(accounts){
           var account;
           for (var i = 0; i < 10; i++) {
             if (req.session.ethaccount == accounts[i].toLowerCase()){
               account = accounts[i];
-              console.log(accounts[i]);
             }
           }
           const t0 = performance.now();
           await blockchain.contract.methods.changeeventstate(eid, "voting").send({from: account, gas:3000000}).then(console.log);
           const t1 = performance.now();
           console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
-          //console.log("changestateevent.participants: ", changestateevent.participants);
           
           var [ring, userArray] = tr_sign.myCreateRing(changestateevent.participants.length, tr_sign.g, tr_sign.G, tr_sign.q);
           /* console.log("ring_mycre: ", ring);
@@ -69,7 +63,6 @@ router.get("/:eid", async (req, res) => {
             await blockchain.contract.methods.createuserringdetail(userArray[i].x, userArray[i].y, userArray[i].id, urd_id).send({from: account, gas:3000000}).then(console.log);
             const t1 = performance.now();
             console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
-            //await blockchain.contract.methods.createuserringdetail(userArray[i].x, userArray[i].y, id_1, urd_id).send({from: account, gas:3000000}).then(console.log);
           }
         });
       } else if (changestateevent.state == "voting") {
@@ -78,7 +71,6 @@ router.get("/:eid", async (req, res) => {
           for (var i = 0; i < 10; i++) {
             if (req.session.ethaccount == accounts[i].toLowerCase()){
               account = accounts[i];
-              console.log(accounts[i]);
             }
           }
           await blockchain.contract.methods.changeeventstate(eid, "result").send({from: account, gas:3000000}).then(console.log);
@@ -91,7 +83,6 @@ router.get("/:eid", async (req, res) => {
       console.log("no event by this eid");
     }
   });
-  //res.redirect("/mycreateevent");
 });
 
 router.get("/result/:eid", async (req, res) => {

@@ -8,10 +8,8 @@ router.get('/:eid', blockchain.requireLogin, async (req, res) => {
   var  event;
   
   var eid = req.params.eid;
-  console.log("eid: ", eid);
   await blockchain.contract.methods.viewevent(eid).call().then(async function(_event){
     event = _event;
-    console.log("event", event);
   });
   res.render('vote', {
     username: req.session.username,
@@ -32,7 +30,6 @@ router.post("/:eid", async (req, res) => {
     metamaskaddr_err = "Please connect to metamask";
   } else {
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-      console.log("viewuser user: ", user);
       metamaskaddr_err = "Please use your linked metamask account";
       for (let i = 0; i < user.length; i++) {
         if (req.session.username == user[i].username && req.body.ethacc == user[i].addr){
@@ -41,7 +38,6 @@ router.post("/:eid", async (req, res) => {
       }
     });
   }
-  console.log("req.body.selectedanswer: ", req.body.selectedanswer);
 
   if (req.body.selectedanswer == undefined) {
     selectedanswer_err = "Please select a answer";
@@ -51,12 +47,9 @@ router.post("/:eid", async (req, res) => {
 
   
   if (metamaskaddr_err !== "" || selectedanswer_err !== "") {
-    console.log("metamaskaddr_err: ", metamaskaddr_err);
-    console.log("selectedanswer_err: ", selectedanswer_err);
     var event;
     await blockchain.contract.methods.viewevent(req.params.eid).call().then(async function(_event){
       event = _event;
-      console.log("event", event);
     });
     res.render("vote", {
       metamaskaddr_err: metamaskaddr_err,
@@ -80,18 +73,9 @@ router.post("/:eid", async (req, res) => {
         }
         var event;
         var pid;
-        //var partlen;
         await blockchain.contract.methods.viewevent(eid).call().then(async function(_event){
           event = _event;
-          //partlen = _event.participants.length;
           pid = _event.participants.indexOf(req.session.username);
-          /* for (var i = 0; i < _event.participants.length; i++){
-            //console.log("i: ", i);
-            if (_event.participants[i] == req.session.username) {
-              pid = i;
-              //console.log("pid: ", pid);
-            }
-          } */
         });
 
         var userArray = [];

@@ -15,7 +15,6 @@ router.post('/', async (req, res) => {
   }
   else {
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-      console.log("viewuser user: ", user);
       username_err = "No account found with that username";
       for (let i = 0; i < user.length; i++) {
         if (req.body.username == user[i].username){
@@ -24,7 +23,6 @@ router.post('/', async (req, res) => {
             metamaskaddr_err = "Please connect to metamask";
           }
           else {
-            console.log("type of ethacc: ", req.body.ethacc);
             if (req.body.ethacc == user[i].addr){
               metamaskaddr_err= "";
             } 
@@ -42,7 +40,6 @@ router.post('/', async (req, res) => {
   }
   else {
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-      console.log("viewuser user: ", user);
       for (let i = 0; i < user.length; i++) {
         if (req.body.username == user[i].username && req.body.ethacc == user[i].addr){
           await bcrypt.compare(req.body.password, user[i].password).then(async result => {
@@ -62,9 +59,6 @@ router.post('/', async (req, res) => {
       }
     });
   }
-  console.log("redirected: ", username_err);
-  console.log("redirected: ", password_err);
-  console.log("redirected: ", metamaskaddr_err);
   console.log("redirected login page");
   if (username_err !== "" || password_err !== "" || metamaskaddr_err !== "") {
 

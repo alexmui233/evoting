@@ -5,12 +5,9 @@ const router = express.Router();
 router.get('/:eid', blockchain.requireLogin, async (req, res) => {
 
   var eid = req.params.eid;
-  console.log("eid: ", eid);
   var event;
-  console.log("typeof eid: ", typeof eid);
   await blockchain.contract.methods.viewevent(eid).call().then(async function(_event){
     event = _event;
-    console.log("event", event);
   });
   var totalans = 0;
   var per = [];
@@ -23,8 +20,6 @@ router.get('/:eid', blockchain.requireLogin, async (req, res) => {
       }
     }
     
-    console.log("totalans", totalans);
-    
     for (var i = 0; i < event.answers.length; i++){
       if (totalans != 0){
 
@@ -34,12 +29,9 @@ router.get('/:eid', blockchain.requireLogin, async (req, res) => {
             countans++;
           }
         }
-        console.log("countans", i, ": ", countans);
         per.push((countans / totalans * 100).toFixed(2));
-        console.log("per", i, ": ", per);
       } else {
         per.push(0);
-        console.log("per", i, ": ", per);
       }
     }
   });

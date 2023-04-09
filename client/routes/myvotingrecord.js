@@ -15,7 +15,6 @@ router.get("/", blockchain.requireLogin, (req, res) => {
 router.post('/', async (req, res) => {
   var transactionid_err = metamaskaddr_err = "";
   var txid = req.body.txid;
-  console.log("txid: ", txid);
   var decodedInput = [];
   var event;
   var txObject;
@@ -24,7 +23,6 @@ router.post('/', async (req, res) => {
     metamaskaddr_err = "Please connect to metamask";
   } else {
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-      console.log("viewuser user: ", user);
       metamaskaddr_err = "Please use your linked metamask account";
       for (let i = 0; i < user.length; i++) {
         if (req.session.username == user[i].username && req.body.ethacc == user[i].addr){
@@ -45,9 +43,7 @@ router.post('/', async (req, res) => {
   } else {
     await blockchain.web3.eth.getTransaction(txid).then(async function(_txObject){
       if (_txObject == null) {
-
         transactionid_err = "Not found match transaction id";
-        console.log('transactionid_err:', transactionid_err);
       }
       else {
         txObject = _txObject;
@@ -55,13 +51,8 @@ router.post('/', async (req, res) => {
         if (req.body.ethacc == txObject.from.toLowerCase()){
           transactionid_err = "";
           decodedInput = await blockchain.web3.eth.abi.decodeParameters(['uint256', 'string'], removeFunctionSelector(txObject.input));
-          console.log("eid:", decodedInput[0]);
-          console.log("answer:", decodedInput[1]);
-          console.log("type decodedInput[0]", typeof decodedInput[0]);
-          console.log("type decodedInput[0]", typeof parseInt(decodedInput[0]));
           await blockchain.contract.methods.viewevent(decodedInput[0]).call().then(async function(_event){
             event = _event;
-            console.log("can view event", event);
           });
         } else {
           transactionid_err = "This transaction is not belong to you";
@@ -76,8 +67,6 @@ router.post('/', async (req, res) => {
     transactionid_err !== "" ||
     metamaskaddr_err !== ""
   ) {
-    console.log("metamaskaddr_err: ", metamaskaddr_err);
-    console.log("transactionid_err: ", transactionid_err);
 
     res.render("myvotingrecord", {
       username: req.session.username,

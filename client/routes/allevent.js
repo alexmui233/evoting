@@ -8,8 +8,6 @@ router.get("/", blockchain.requireLogin, async (req, res) => {
   const t0 = performance.now();
   await blockchain.contract.methods.eventId().call().then(async function (_eventId) {
     var eventId = _eventId;
-    console.log("_eventId: ", _eventId);
-    console.log("eventId: ", eventId);
     for (var i = 0; i < eventId; i++) {
       await blockchain.contract.methods.viewevent(i).call().then(async function (_events) {
         console.log("_events.participants.includes()", _events.participants.includes(req.session.username)
@@ -32,14 +30,12 @@ router.get("/", blockchain.requireLogin, async (req, res) => {
 
 router.get("/:eid", async (req, res) => {
   var eid = req.params.eid;
-  //console.log("eid: ", eid);
   const t0 = performance.now();
   await blockchain.contract.methods
     .viewevent(eid)
     .call()
     .then(async function (joinevent) {
       if (joinevent !== null) {
-        //console.log("joinevent: ", joinevent);
         if (joinevent.owner !== req.session.username) {
           if (joinevent.state == "registration") {
             if (

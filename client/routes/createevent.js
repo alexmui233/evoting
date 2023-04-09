@@ -26,13 +26,9 @@ router.post("/", async (req, res) => {
     if (req.body["answer" + i] != undefined){
       if (req.body["answer" + i] == "") {
         answer_err = "Please enter a answer";
-
-        console.log("answer_err = Please" + answer_err);
         break;
       } else {
         answer_err = "";
-
-        console.log("answer_err = null" + answer_err);
       }
     }
     
@@ -42,7 +38,6 @@ router.post("/", async (req, res) => {
     metamaskaddr_err = "Please connect to metamask";
   } else {
     await blockchain.contract.methods.viewalluser().call().then(async function(user){
-      console.log("viewuser user: ", user);
       metamaskaddr_err = "Please use your linked metamask account";
       for (let i = 0; i < user.length; i++) {
         if (req.session.username == user[i].username && req.body.ethacc == user[i].addr){
@@ -57,8 +52,6 @@ router.post("/", async (req, res) => {
     answer_err !== "" ||
     metamaskaddr_err !== ""
   ) {
-    console.log("question_err: ", question_err);
-    console.log("answer_err: ", answer_err);
     res.render("createevent", {
       question_err: question_err,
       answer_err: answer_err,
@@ -72,7 +65,6 @@ router.post("/", async (req, res) => {
     for (var i = 1; i <= req.body.countans; i++) {
       if (req.body["answer" + i] != undefined){
         answers.push(req.body["answer" + i]);
-        console.log("answers: ", answers);
       }
     }
 
@@ -83,7 +75,6 @@ router.post("/", async (req, res) => {
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
             account = accounts[i];
-            console.log(accounts[i]);
           }
         }
         const t0 = performance.now();
@@ -91,7 +82,6 @@ router.post("/", async (req, res) => {
         const t1 = performance.now();
         console.log(`Call to smart contract function took ${(t1 - t0) / 1000} seconds.`);
       });
-
 
       console.log("connected!");
       res.redirect("/mycreateevent");
