@@ -50,15 +50,13 @@ function findCoprimeList(n) {
 function fastpow(b, e, m) {
   let result = 1;
   b = b % m;
-  // //console.log("b: ", b);
+
   while (e > 0) {
     if (e % 2 == 1) {
       result = (result * b) % m;
     }
     e = Math.floor(e / 2);
-    // //console.log("e: ", e);
     b = (b * b) % m;
-    // //console.log("b: ", b);
   }
   return result;
 }
@@ -73,7 +71,6 @@ function buildG() {
     generatorFound = true;
     x += 1;
     for (let pi of primfac) {
-      //if (Math.pow(x, parseInt((p - 1) / pi)) % p == 1) {
       if (fastpow(x, parseInt((p - 1) / pi), p) == 1) {
         generatorFound = false;
       }
@@ -81,22 +78,17 @@ function buildG() {
   }
 
   var generators = [x];
-  // //console.log("generators: ", generators);
   var coprimeList = findCoprimeList(p - 1);
-  // //console.log("coprimeList: ", coprimeList);
   for (let qi of coprimeList) {
     generators.push(Math.pow(x, qi) % p);
   }
-  // //console.log("generators: ", generators);
   generators.sort((a, b) => a - b);
-  ////console.log("generators sorted: ", generators);
 
   var G_tmp = [];
   var g = generators[1];
   g = Math.pow(g * g, 1) % p;
 
   for (let qi = 0; qi < q; qi++) {
-    ////console.log("fastpow(", g, ",", qi,") % ", p,": ",      fastpow(g, qi, p));
     G_tmp.push(fastpow(g, qi, p));
   }
   G_tmp.sort((a, b) => a - b);
@@ -106,106 +98,74 @@ function buildG() {
 
 function Hash(issue, publicKeys, g, p, q) {
   let s = issue;
-  /* for (let keys of publicKeys) {
-    s += keys;
-  } */
-  //console.log("s: ", JSON.stringify(s));
-  //console.log("s.charCodeAt(0): ", s.charCodeAt(0));
-  //console.log("s.charCodeAt(0).toString(2): ", s.charCodeAt(0).toString(2));
   var binary = s.charCodeAt(0).toString(2);
-  //console.log("binary: ", binary);
-  let hashed = parseInt(crypto.createHash('sha1').update(binary).digest('hex'), 16);
-  //console.log("hashed: ", hashed);
-  ////console.log("getBaseLog(3, hashed): ", getBaseLog(2, hashed));
-  ////console.log("Math.pow:", Math.pow(2, 156.22504296509652));
+  let hashed = parseInt(crypto.createHash('sha256').update(binary).digest('hex'), 16);
+
   hashed = fastpow(g, fastpow(hashed, 1, q), p);
-  //console.log("hashed pow: ", hashed)
+
   return hashed;
 }
 
 function HashPrime(issue, publicKeys, g, p, q, m) {
   let s = issue;
   s += m;
-  //console.log("s: ", s)
+
   var binary= '';
   binary = s.split('').map(char => {
       return char.charCodeAt(0).toString(2);
    }).join("");
-  //console.log("binary: ", binary);
-  let hashed = parseInt(crypto.createHash('sha1').update(binary).digest('hex'), 16);
-  //console.log("hashed: ", hashed);
+
+  let hashed = parseInt(crypto.createHash('sha256').update(binary).digest('hex'), 16);
+
   hashed = fastpow(g, fastpow(hashed, 1, q), p);
-  //console.log("hashed fast: ", hashed);
+
   return hashed;
 }
 
 function HashPrimePrime(issue, message, publicKeys, g, p, q, A_0, A_1, a, b) {
   let s = issue;
-  /* for (let keys of publicKeys) {
-    s += keys;
-  } */
-  //console.log("A_0: ", A_0);
-  //console.log("A_1: ", A_1);
   s = s + A_0 + A_1 + message;
-  //console.log("s: ", s)
-  //console.log("a: ", a)
-  //console.log("b: ", b)
+
   a = a.concat(b);
   for (let n in a) {
-    //console.log("a[n]: ", a[n]);
     s = s + a[n];
   }
-  //console.log("s+n: ", s)
+
   binary = s.split('').map(char => {
       return char.charCodeAt(0).toString(2);
   }).join("");
-  //console.log("binary: ", binary);
-  let hashed = parseInt(crypto.createHash('sha1').update(binary).digest('hex'), 16);
+
+  let hashed = parseInt(crypto.createHash('sha256').update(binary).digest('hex'), 16);
   hashed = fastpow(hashed, 1, q);
-  //console.log("hashed fast: ", hashed);
+
   return hashed;
 }
 
 function Sign(message, issue, publicKeys, user, G, g, userArray) {
   var n = publicKeys.length;
-  /* if (user.id == 0){
-    var i = 1;
-  } else {
-    var i = user.id;
-  } */
   var i = user.id;
   var sigma = new Array(n).fill(null);
   var hashed = Hash(issue, publicKeys, g, p, q);
-  //console.log("hashed: ", hashed);
   sigma[i] = fastpow(hashed, user.x, p);
-  //sigma[i-1] = fastpow(hashed, user.x, p);
-  //console.log("sigma[", i, "]: ", sigma[i]);
-  //console.log("sigma[", i-1, "]: ", sigma[i-1]);
+
   var A_0 = HashPrime(issue, publicKeys, g, p, q, message);
-  //console.log("A_0: ", A_0);
+
   var A_1 = fastpow(fastpow(sigma[i] * fastpow(A_0, p - 2, p), 1, p), fastpow(i, q - 2, q), p);
-  //var A_1 = fastpow(fastpow(sigma[i-1] * fastpow(A_0, p - 2, p), 1, p), fastpow(i, q - 2, q), p);
-  //console.log("A_1: ", A_1);
+
   for (let j = 0; j < n; j++) {
-    //console.log("sigma for j i: ", i-1);
-    //var tmp_i = i-1;
     if (j != i) {
       sigma[j] = fastpow(A_0 * fastpow(A_1, j, p), 1, p);
     }
-    //console.log("sigma[", j, "] sign: ", sigma[j]);
   }
-  //console.log("sigma sign: ", sigma);
 
   w_i = Math.floor(Math.random() * (q - 1));
-  //console.log("w_i: ", w_i);
+
   var a = new Array(n).fill(null);
   var b = new Array(n).fill(null);
   a[i] = fastpow(g, w_i, p);
-  // a[i-1] = fastpow(g, w_i, p);
+
   b[i] = fastpow(hashed, w_i, p);
-  //b[i-1] = fastpow(hashed, w_i, p);
-  /* console.log("a[", i-1,"]: ", a);
-  console.log("b[", i-1,"]: ", b); */
+
 
   var c = new Array(n).fill(null);
   var z = new Array(n).fill(null);
@@ -217,44 +177,28 @@ function Sign(message, issue, publicKeys, user, G, g, userArray) {
         b[j] = fastpow(fastpow(hashed, z[j], p) * fastpow(sigma[j], c[j], p), 1, p)
     }
   }
-  /* console.log("z: ", z);
-  console.log("c: ", c);
-  console.log("a: ", a);
-  console.log("b: ", b); */
+
   c_solo = HashPrimePrime(issue, message, publicKeys, g, p, q, A_0, A_1, a, b)
   
   var sum = 0;
   for (let j = 0; j < n; j++) {
     if(j != i){
       sum = sum + c[j];
-      //console.log("sum: ", sum); 
     }
   }
-  //console.log("sum: ", sum); 
+
   sum = Math.pow(sum, 1) % q;
-  //console.log("sum fast: ", sum);
-  //console.log("c_solo: ", c_solo);
+
 
   c[i] = Math.pow(c_solo - sum, 1) % q;
-  //c[i-1] = Math.pow(c_solo - sum, 1) % q;
+
   if (c[i] < 0)
     c[i] += q;
-  /* if (c[i-1] < 0)
-    c[i-1] += q; */  
-  //console.log("c: ", c);
-
-  //console.log("c[i]: ", c[i]);
-  //console.log("w_i: ", w_i);
-  //console.log("c[i]*user.x: ", c[i]*user.x);
-  //console.log("w_i - c[i]*user.x: ", w_i - c[i]*user.x);
 
   z[i] = Math.pow((w_i - c[i]*user.x), 1) % q;
-  // z[i-1] = Math.pow((w_i - c[i-1]*user.x), 1) % q;
+
   if (z[i] < 0)
     z[i] += q;
-  /* if (z[i-1] < 0)
-    z[i-1] += q; */
-  //console.log("z: ", z);
 
   return [A_1, c, z]
 }
@@ -264,42 +208,33 @@ function Verify(issue, publicKeys, message, signature, G, g, userArray) {
   var c = signature[1];
   var z = signature[2];
   var n = publicKeys.length;
-  //console.log("G: ", G);
-  /* console.log("A_1: ", A_1);
-  console.log("G.includes(g): ", G.includes(g)) */
+
   if (G.includes(g) == false)
     return false
-  //console.log("G.includes(A_1): ", G.includes(A_1))
+
   if(G.includes(A_1) == false)
     return false
 
   Zq = [...Array(q).keys()];
-  //console.log("Zq: ", Zq)
+
   for (var i = 0; i < n; i++) {
-    /* console.log("Zq.includes(c[i]): ", Zq.includes(c[i]));
-    console.log("c[i]: ", c[i]); */
+
     if(Zq.includes(c[i]) == false)
       return false
-    /* console.log("Zq.includes(z[i]): ", Zq.includes(z[i]));
-    console.log("z[i]: ", z[i]); */
+
     if(Zq.includes(z[i]) == false)
       return false
-    //console.log("G: ", G);
-    //console.log("TYPEOF userArray[i].y: ", typeof userArray[i].y)
-    /* console.log("G.includes(userArray[i].y): ", G.includes(userArray[i].y));
-    console.log("userArray[i].y: ", userArray[i].y); */
+
     if(G.includes(userArray[i].y) == false)
       return false
   }
   var hashed = Hash(issue, publicKeys, g, p, q);
-  //console.log("hashed: ", hashed)
   var A_0 = HashPrime(issue, publicKeys, g, p, q, message);
 
   var sigma = new Array(n).fill(null);
   for (var i = 0; i < n; i++) {
     sigma[i] = fastpow(A_0 * fastpow(A_1, i, p), 1, p);
   }
-  //console.log("sigma: ", sigma);
 
   var a = new Array(n).fill(null);
   var b = new Array(n).fill(null);
@@ -307,21 +242,14 @@ function Verify(issue, publicKeys, message, signature, G, g, userArray) {
     a[i] = fastpow(fastpow(g, z[i], p) * fastpow(userArray[i].y, c[i], p), 1, p)
     b[i] = fastpow(fastpow(hashed, z[i], p) * fastpow(sigma[i], c[i], p), 1, p)
   }
-  /* console.log("a: ", a);
-  console.log("b: ", b);
- */
+
   var sum = 0;
   for (var i = 0; i < n; i++) {
       sum = sum + c[i];
   }
 
   var Hpp = HashPrimePrime(issue,message, publicKeys, g, p, q, A_0, A_1, a, b);
-  /* console.log("n: ", n);
-  console.log("Hpp: ", Hpp);
-  console.log("sum: ", sum);
-  console.log("fastpow(Hpp, 1, q): ", fastpow(Hpp, 1, q));
-  console.log("fastpow(sum, 1, q): ", fastpow(sum, 1, q));
-  console.log("fastpow(Hpp, 1, q) != fastpow(sum, 1, q): ", fastpow(Hpp, 1, q) != fastpow(sum, 1, q)); */
+
   if(fastpow(Hpp, 1, q) != fastpow(sum, 1, q))
     return false
     
@@ -329,19 +257,11 @@ function Verify(issue, publicKeys, message, signature, G, g, userArray) {
 }
 
 function Trace(issue, publicKeys, g, G, message, signature, messageb, signatureb) {
-  ////console.log("signature: ", signature);
+
   var A_1 = signature[0];
-  //console.log("A_1: ", A_1);
-  //var c = signature[1];
-  //var z = signature[2];
-  //console.log("signatureb: ", signatureb);
   var A_1b = signatureb[0];
-  //console.log("A_1b: ", A_1b);
-  //var cb = signatureb[1];
-  //var zb = signatureb[2];
   var n = publicKeys.length;
 
-  //var hashed = Hash(issue, publicKeys, g, p, q);
   var A_0 = HashPrime(issue, publicKeys, g, p, q, message);
   var A_0b = HashPrime(issue, publicKeys, g, p, q, messageb);
 
@@ -354,18 +274,14 @@ function Trace(issue, publicKeys, g, G, message, signature, messageb, signatureb
   } 
 
   var TList = [];
-  //console.log("sigma: ", sigma);
-    //console.log("sigmab: ", sigmab);
+
   for (var i = 0; i < n; i++) {
-    //console.log("sigma[i]: ", sigma[i]);
-    //console.log("sigmab[i]: ", sigmab[i]);
     if(sigma[i] == sigmab[i]){
       TList.push(publicKeys[i]);
-      //console.log("TList[i]: ", TList);
     }
           
   }
-  //console.log("TList: ", TList);
+
   if(TList.length == 1)
     //return "TList[0]", TList[0]
     return "this is the different message by the same person"
@@ -387,11 +303,8 @@ function main() {
   var id = 1;
   var id2 = 2;
   [G, g] = buildG();
-  //console.log("G: ", G);
-  //console.log("g: ", g);
   [ring, userArray] = myCreateRing(userNumber, g, G, q);
-  //console.log("ring: ", ring);
-  //console.log("userArray: ", userArray);
+
   
   var signature = Sign(message, issue, ring.pKeys, userArray[id], G, g, userArray);
   var signature2 = Sign(message2, issue, ring.pKeys, userArray[id2], G, g, userArray);
@@ -413,13 +326,11 @@ function main() {
   console.log(Trace(issue, ring.pKeys, g, G, message, signature, message2, signature2))
 
   console.log("\nTrace of same message by the same person :")
-  console.log("signature: ", signature);
-  console.log("signature3: ", signature3);
   console.log(Trace(issue, ring.pKeys, g, G, message, signature, message3, signature3))
 
   console.log("\nTrace of different message by the same person :")
   console.log(Trace(issue, ring.pKeys, g, G, message, signature, message4, signature4))
 }
-//main();
+main();
 
 module.exports = {main, buildG, myCreateRing, Sign, Verify, Trace, G, g, q};
