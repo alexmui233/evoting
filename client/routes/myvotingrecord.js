@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
       }
       else {
         txObject = _txObject;
-        console.log(_txObject);
+
         if (req.session.ethaccount == txObject.from.toLowerCase()){
           transactionid_err = "";
           decodedInput = await blockchain.web3.eth.abi.decodeParameters(['uint256', 'string'], removeFunctionSelector(txObject.input));
@@ -78,8 +78,6 @@ router.post('/', async (req, res) => {
     console.log("redirected myvotingrecord page");
   } else {
  
-    console.log("event: ", event);
-
     res.render('myvotingrecord', {
       username: req.session.username,
       event: event,

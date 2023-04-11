@@ -68,7 +68,6 @@ router.post("/:eid", async (req, res) => {
         for (var i = 0; i < 10; i++) {
           if (req.body.ethacc == accounts[i].toLowerCase()){
             account = accounts[i];
-            console.log(accounts[i]);
           }
         }
         var event;

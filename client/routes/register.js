@@ -82,10 +82,6 @@ router.post('/', async (req, res) =>{
       console.log("connected!");
       res.redirect('/register/registersuccess');
     }catch (e){
-      console.log(req.body.username);
-      console.log(req.body.email);
-      console.log(req.body.password);
-      console.log(req.body.confirm_password);
       console.log("error!\n", e);
     };
   };

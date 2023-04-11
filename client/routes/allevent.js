@@ -43,7 +43,6 @@ router.get("/:eid", async (req, res) => {
                   for (var i = 0; i < 10; i++) {
                     if (req.session.ethaccount == accounts[i].toLowerCase()) {
                       account = accounts[i];
-                      console.log(accounts[i]);
                     }
                   }
                   const t0 = performance.now();

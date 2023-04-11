@@ -13,7 +13,6 @@ async function getAccount() {
       console.log("have MetaMask.", activeAccount);
     }
     document.getElementById("countans").value = countans;
-    console.log("countans: ", countans);
   }
 } 
 

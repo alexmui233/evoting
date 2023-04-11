@@ -59,7 +59,7 @@ router.post('/', async (req, res) => {
       }
     });
   }
-  console.log("redirected login page");
+
   if (username_err !== "" || password_err !== "" || metamaskaddr_err !== "") {
 
     res.render('login', {
