@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
       else {
         txObject = _txObject;
         console.log(_txObject);
-        if (req.body.ethacc == txObject.from.toLowerCase()){
+        if (req.session.ethaccount == txObject.from.toLowerCase()){
           transactionid_err = "";
           decodedInput = await blockchain.web3.eth.abi.decodeParameters(['uint256', 'string'], removeFunctionSelector(txObject.input));
           await blockchain.contract.methods.viewevent(decodedInput[0]).call().then(async function(_event){

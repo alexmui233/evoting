@@ -31,19 +31,14 @@ router.get("/", blockchain.requireLogin, async (req, res) => {
 router.get("/:eid", async (req, res) => {
   var eid = req.params.eid;
   const t0 = performance.now();
-  await blockchain.contract.methods
-    .viewevent(eid)
-    .call()
-    .then(async function (joinevent) {
+  await blockchain.contract.methods.viewevent(eid).call().then(async function (joinevent) {
       if (joinevent !== null) {
         if (joinevent.owner !== req.session.username) {
           if (joinevent.state == "registration") {
             if (
               joinevent.participants.includes(req.session.username) == false
             ) {
-              await blockchain.web3.eth
-                .getAccounts()
-                .then(async function (accounts) {
+              await blockchain.web3.eth.getAccounts().then(async function (accounts) {
                   var account;
                   for (var i = 0; i < 10; i++) {
                     if (req.session.ethaccount == accounts[i].toLowerCase()) {
@@ -52,9 +47,7 @@ router.get("/:eid", async (req, res) => {
                     }
                   }
                   const t0 = performance.now();
-                  await blockchain.contract.methods
-                    .joinevent(eid, req.session.username)
-                    .send({ from: req.session.ethaccount, gas: 3000000 })
+                  await blockchain.contract.methods.joinevent(eid, req.session.username).send({ from: req.session.ethaccount, gas: 3000000 })
                     .then(console.log);
                   const t1 = performance.now();
                   console.log(

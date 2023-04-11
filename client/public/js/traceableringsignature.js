@@ -331,6 +331,6 @@ function main() {
   console.log("\nTrace of different message by the same person :")
   console.log(Trace(issue, ring.pKeys, g, G, message, signature, message4, signature4))
 }
-main();
+//main();
 
 module.exports = {main, buildG, myCreateRing, Sign, Verify, Trace, G, g, q};
